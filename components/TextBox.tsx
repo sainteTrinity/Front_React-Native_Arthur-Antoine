@@ -1,5 +1,6 @@
 import {TextInput} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
+import {useState} from "react";
 
 
 type TextBoxProps = {
@@ -11,16 +12,21 @@ type TextBoxProps = {
 }
 const TextBox = (props: TextBoxProps) => {
     const {content, setContent, icon, secureTextEntry} = props;
+    const [isPasswordVisible, setPasswordVisible] = useState(false);
 
+
+    const showPassword = () => {
+        setPasswordVisible(!isPasswordVisible)
+    }
     return (
         <View style={styles.textBox}>
 
 
             <TextInput left={icon ? <TextInput.Icon icon={icon ? icon : ''}/> : null}
-                       right={secureTextEntry ? <TextInput.Icon icon={'eye'}/> : null} value={content}
+                       right={secureTextEntry ? <TextInput.Icon icon={'eye'} onPress={() => showPassword()}/> : null} value={content}
                        onChangeText={text => setContent ? setContent(text) : null}
                        style={styles.textInput} underlineColor={"transparent"} placeholder={content ? content : ''}
-                       secureTextEntry={secureTextEntry}/>
+                       secureTextEntry={secureTextEntry && !isPasswordVisible}/>
 
         </View>
     )
