@@ -1,3 +1,4 @@
+
 import {PaperProvider} from "react-native-paper";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import StackNavigator from "./navigation/Navigation";
@@ -29,3 +30,17 @@ const styles = StyleSheet.create(
         }
     }
 );
+
+const styles = StyleSheet.create(
+    {
+        mainSafeArea: {
+            flex: 1,
+            backgroundColor: "#fff"
+        },
+        topSafeArea: {
+            flex: 0,
+            backgroundColor: "#fff"
+        }
+    }
+);
+

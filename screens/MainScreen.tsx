@@ -8,6 +8,8 @@ import {useNavigation} from "@react-navigation/native";
 
 const MainScreen = () => {
     const navigation = useNavigation();
+
+
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
