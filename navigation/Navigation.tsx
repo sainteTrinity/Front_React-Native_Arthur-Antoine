@@ -13,7 +13,7 @@ const StackNavigator = () => {
             <Stack.Navigator initialRouteName="MainScreen" screenOptions={
                 {
                     headerShown: false
-
+                    
                 }
             }>
                 <Stack.Screen name="MainScreen" component={MainScreen}/>
