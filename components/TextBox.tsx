@@ -14,7 +14,7 @@ const TextBox = (props: TextBoxProps) => {
     const {content, setContent, icon, secureTextEntry} = props;
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
-
+    const [label, setLabel] = useState(content);
     const showPassword = () => {
         setPasswordVisible(!isPasswordVisible)
     }
@@ -23,9 +23,9 @@ const TextBox = (props: TextBoxProps) => {
 
 
             <TextInput left={icon ? <TextInput.Icon icon={icon ? icon : ''}/> : null}
-                       right={secureTextEntry ? <TextInput.Icon icon={'eye'} onPress={() => showPassword()}/> : null} value={content}
-                       onChangeText={text => setContent ? setContent(text) : null}
-                       style={styles.textInput} underlineColor={"transparent"} placeholder={content ? content : ''}
+                       right={secureTextEntry ? <TextInput.Icon icon={'eye'} onPress={() => showPassword()}/> : null}
+                       onChangeText={text => setContent ? setContent(text) : setLabel(text)}
+                       style={styles.textInput} underlineColor={"transparent"} placeholder={setContent ? content : label}
                        secureTextEntry={secureTextEntry && !isPasswordVisible}/>
 
         </View>
