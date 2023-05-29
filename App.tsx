@@ -1,16 +1,34 @@
-import TextBox from "./components/TextBox";
-import {View} from "react-native";
-import CustomButton from "./components/CustomButton";
+
 import {PaperProvider} from "react-native-paper";
-import MainScreen from "./screens/MainScreen";
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import StackNavigator from "./navigation/Navigation";
+import React from "react";
+import {StyleSheet} from "react-native";
 
 export default function App() {
     return (
-        <PaperProvider>
-            <MainScreen />
-        </PaperProvider>
+            <SafeAreaProvider >
+                <SafeAreaView style={styles.topSafeArea}/>
+
+                <SafeAreaView style={styles.mainSafeArea} >
+                        <StackNavigator/>
+                    </SafeAreaView>
+            </SafeAreaProvider>
 
     );
 }
 
+
+const styles = StyleSheet.create(
+    {
+        mainSafeArea: {
+            flex: 1,
+            backgroundColor: "#fff"
+        },
+        topSafeArea: {
+            flex: 0,
+            backgroundColor: "#fff"
+        }
+    }
+);
 

@@ -1,15 +1,17 @@
 
 import { Button } from 'react-native-paper';
 import {StyleSheet} from "react-native";
+import React from "react";
 
 type CustomButtonProps = {
     label : string
+    action? : Function
 }
 const CustomButton = (props : CustomButtonProps) => {
-const {label} = props
+const {label,action} = props
 
     return (
-        <Button mode="contained"  style={styles.button} labelStyle={styles.label}>{label}</Button>
+        <Button mode="contained"  style={styles.button} labelStyle={styles.label} onPress={ () => action? action() : null}>{label} </Button>
     )
 }
 
