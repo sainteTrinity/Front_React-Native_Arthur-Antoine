@@ -18,19 +18,6 @@ export default function App() {
     );
 }
 
-const styles = StyleSheet.create(
-    {
-        mainSafeArea: {
-            flex: 1,
-            backgroundColor: "#fff"
-        },
-        topSafeArea: {
-            flex: 0,
-            backgroundColor: "#fff"
-        }
-    }
-);
-
 
 const styles = StyleSheet.create(
     {

@@ -20,7 +20,7 @@ const MainScreen = () => {
                 <View >
                     <CustomButton label="Connexion"  action={() => navigation.navigate('LoginScreen')} />
                     <View style={styles.dividerView} />
-                    <CustomButton label="Inscription" />
+                    <CustomButton label="Inscription" action={() => navigation.navigate('SignInScreen')}/>
                 </View>
                 <View style={styles.animationContainer}>
                     <LottieView
