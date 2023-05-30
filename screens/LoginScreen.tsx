@@ -2,9 +2,11 @@ import {StyleSheet, View} from "react-native";
 import { Text } from 'react-native-paper';
 import TextBox from "../components/TextBox";
 import CustomButton from "../components/CustomButton";
+import {useNavigation} from "@react-navigation/native";
 
 
 const LoginScreen = () => {
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -15,7 +17,7 @@ const LoginScreen = () => {
             <TextBox icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
 
             <View style={styles.dividerView} />
-            <CustomButton label={"Connexion"} />
+            <CustomButton label={"Connexion"} action={()  => navigation.navigate("HomeScreen")}/>
         </View>
     )
 }
