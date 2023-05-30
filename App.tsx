@@ -1,3 +1,4 @@
+
 import {PaperProvider} from "react-native-paper";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import StackNavigator from "./navigation/Navigation";
@@ -17,6 +18,7 @@ export default function App() {
     );
 }
 
+
 const styles = StyleSheet.create(
     {
         mainSafeArea: {
@@ -29,3 +31,4 @@ const styles = StyleSheet.create(
         }
     }
 );
+

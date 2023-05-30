@@ -8,6 +8,8 @@ import {useNavigation} from "@react-navigation/native";
 
 const MainScreen = () => {
     const navigation = useNavigation();
+
+
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
@@ -18,7 +20,7 @@ const MainScreen = () => {
                 <View >
                     <CustomButton label="Connexion"  action={() => navigation.navigate('LoginScreen')} />
                     <View style={styles.dividerView} />
-                    <CustomButton label="Inscription" />
+                    <CustomButton label="Inscription" action={() => navigation.navigate('SignInScreen')}/>
                 </View>
                 <View style={styles.animationContainer}>
                     <LottieView
