@@ -4,8 +4,10 @@ import LottieView from "lottie-react-native";
 import CustomButton from "../components/CustomButton";
 // @ts-ignore
 import Logo from "../assets/images/LePetitChef.svg";
+import {useNavigation} from "@react-navigation/native";
 
 const MainScreen = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
@@ -14,7 +16,7 @@ const MainScreen = () => {
 
             <View style={styles.contentContainer}>
                 <View >
-                    <CustomButton label="Connexion" />
+                    <CustomButton label="Connexion"  action={() => navigation.navigate('LoginScreen')} />
                     <View style={styles.dividerView} />
                     <CustomButton label="Inscription" />
                 </View>
@@ -32,6 +34,7 @@ const MainScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor : "#fff"
     },
     logoContainer: {
         flex: 1,
