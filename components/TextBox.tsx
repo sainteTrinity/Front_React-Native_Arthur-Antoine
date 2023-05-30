@@ -20,17 +20,13 @@ const TextBox = (props: TextBoxProps) => {
     }
     return (
         <View style={styles.textBox}>
-
-
             <TextInput left={icon ? <TextInput.Icon icon={icon ? icon : ''}/> : null}
-                       right={secureTextEntry ? <TextInput.Icon icon={'eye'} onPress={() => showPassword()}/> : null} value={content}
+                       right={secureTextEntry ? <TextInput.Icon icon={isPasswordVisible ? 'eye-off' : 'eye'} onPress={() => showPassword()}/> : null} value={content}
                        onChangeText={text => setContent ? setContent(text) : null}
                        style={styles.textInput} underlineColor={"transparent"} placeholder={content ? content : ''}
                        secureTextEntry={secureTextEntry && !isPasswordVisible}/>
-
         </View>
     )
-
 }
 
 const styles = StyleSheet.create({
