@@ -1,10 +1,9 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
-import { Text } from 'react-native-paper';
+import {Button, IconButton, Text} from 'react-native-paper';
 import SearchBox from "../components/SearchBox";
-import CategorieComponent from "../components/CategorieComponent";
-import Logo from "../assets/icon/noodles.svg";
-
+import ListCategoriesLayout from "./layout/ListCategoriesLayout";
+import RestaurantsCard from "../components/RestaurantsCard";
 
 const HomeScreen = () => {
     return (
@@ -14,21 +13,39 @@ const HomeScreen = () => {
 
             <SearchBox/>
 
-            <Text variant={"titleLarge"} style={styles.categorieTitle}>Catégories</Text>
+            <View style={styles.categorieTitle}>
+                <Text variant={"titleLarge"}>Catégories</Text>
+                <View style={styles.buttonContainer}>
+                    <Button style={styles.seeMore}>Voir tout</Button>
+                </View>
+            </View>
 
-            <CategorieComponent icon={Logo} label={"sushi"}/>
+            <ListCategoriesLayout />
+
+            <Text variant={"titleLarge"} style={{marginTop: 20}}>Restaurants Ouverts</Text>
+
+            <RestaurantsCard />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container : {
-        marginLeft: 20,
-        marginRight: 20
+        marginLeft: 15,
+        marginRight: 15
     },
 
-    categorieTitle : {
-        marginLeft : 15
-    }
+    categorieTitle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    buttonContainer: {
+        marginLeft: 'auto',
+    },
+    seeMore: {
+        padding: 10,
+        borderRadius: 5,
+    },
 })
 export default HomeScreen;

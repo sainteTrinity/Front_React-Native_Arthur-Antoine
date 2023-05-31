@@ -12,7 +12,7 @@ const CategorieComponent = (props : CategorieProps) => {
     const {icon,label} = props;
 
     return(
-            <Button icon={icon ? icon : "default"} style={styles.container}>
+            <Button icon={icon ? icon : "default"} style={styles.container} mode={"elevated"}>
                 {label}
             </Button>
     )
@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
         backgroundColor : "#D0D0D0",
         padding : 10,
         minWidth : 116 ,
-        maxWidth : 200
+        maxWidth : 200,
+        marginRight: 10,
+        marginBottom: 10
 
     }
 })
