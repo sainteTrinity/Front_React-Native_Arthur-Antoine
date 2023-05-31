@@ -17,7 +17,7 @@ const LoginScreen = () => {
             <TextBox icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
 
             <View style={styles.dividerView} />
-            <CustomButton label={"Connexion"} action={()  => navigation.navigate("HomeScreen")}/>
+            <CustomButton label={"Connexion"} action={()  => navigation.replace("HomeScreen")}/>
         </View>
     )
 }
