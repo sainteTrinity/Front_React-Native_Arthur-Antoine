@@ -1,11 +1,13 @@
 import React from "react";
-import {StyleSheet, View} from "react-native";
+import {ScrollView, StyleSheet, View} from "react-native";
 import {Button, IconButton, Text} from 'react-native-paper';
 import SearchBox from "../components/SearchBox";
 import ListCategoriesLayout from "./layout/ListCategoriesLayout";
 import RestaurantsCard from "../components/RestaurantsCard";
 
 const HomeScreen = () => {
+    //TODO: A remplacer par redux
+    const [restaurants, setRestaurants] = React.useState<Array<Restaurants>>([]);
     return (
         <View style={styles.container}>
             <Text variant={"titleMedium"}>Hey !</Text>
@@ -22,9 +24,20 @@ const HomeScreen = () => {
 
             <ListCategoriesLayout />
 
+
             <Text variant={"titleLarge"} style={{marginTop: 20}}>Restaurants Ouverts</Text>
 
-            <RestaurantsCard />
+            <ScrollView>
+                {
+                    restaurants.map((restaurant, index) => {
+                        return (
+                            <RestaurantsCard key={index} title={restaurant.title} image={restaurant.image}
+                                             categories={restaurant.categories}/>
+                        )
+                    })
+                }
+
+            </ScrollView>
         </View>
     )
 }

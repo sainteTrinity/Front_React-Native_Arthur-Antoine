@@ -5,9 +5,13 @@ import CustomButton from "../components/CustomButton";
 // @ts-ignore
 import Logo from "../assets/images/LePetitChef.svg";
 import {useNavigation} from "@react-navigation/native";
+import {StackNavigationProp} from "@react-navigation/stack";
+
+
+type MainScreenNavigationProp = StackNavigationProp<any, 'MainScreen'>;
 
 const MainScreen = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<MainScreenNavigationProp>();
 
 
     return (

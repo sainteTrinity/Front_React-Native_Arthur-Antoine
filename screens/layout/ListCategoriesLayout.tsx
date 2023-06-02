@@ -1,15 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import CategorieComponent from '../../components/CategorieComponent';
-import LogoNouille from '../../assets/icon/noodles.svg';
-import LogoFrites from '../../assets/icon/french-fries.svg';
-import LogoSushi from '../../assets/icon/nigiri.svg';
+
+import {FRITES, NOUILLE} from "../../assets/icon/icons";
 const ListCategoriesLayout = () => {
     return (
         <ScrollView horizontal contentContainerStyle={styles.container}>
-            <CategorieComponent icon={LogoSushi} label={'sushi'} />
-            <CategorieComponent icon={LogoFrites} label={'Frites'} />
-            <CategorieComponent icon={LogoNouille} label={'Chinois'} />
+            <CategorieComponent icon={NOUILLE} label={'sushi'} />
+            <CategorieComponent icon={FRITES} label={'Frites'} />
+            <CategorieComponent icon={NOUILLE} label={'Chinois'} />
 
         </ScrollView>
     );
