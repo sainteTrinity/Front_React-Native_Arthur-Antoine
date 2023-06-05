@@ -1,9 +1,12 @@
 
 import {PaperProvider} from "react-native-paper";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import StackNavigator from "./navigation/Navigation";
+import StackNavigator from "./navigation/LoginNavigator";
 import React from "react";
 import {StyleSheet} from "react-native";
+import {Provider, useSelector} from "react-redux";
+import store from "./redux/store";
+import Router from "./navigation/Router";
 
 export default function App() {
     return (
@@ -11,7 +14,9 @@ export default function App() {
                 <SafeAreaView style={styles.topSafeArea}/>
 
                 <SafeAreaView style={styles.mainSafeArea} >
-                        <StackNavigator/>
+                    <Provider store={store}>
+                        <Router />
+                    </Provider>
                     </SafeAreaView>
             </SafeAreaProvider>
 

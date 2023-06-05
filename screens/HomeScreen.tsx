@@ -7,7 +7,7 @@ import RestaurantsCard from "../components/RestaurantsCard";
 
 const HomeScreen = () => {
     //TODO: A remplacer par redux
-    const [restaurants, setRestaurants] = React.useState<Array<Restaurants>>([]);
+    const [restaurants, setRestaurants] = React.useState<Array<Restaurant>>([]);
     return (
         <View style={styles.container}>
             <Text variant={"titleMedium"}>Hey !</Text>
@@ -28,6 +28,7 @@ const HomeScreen = () => {
             <Text variant={"titleLarge"} style={{marginTop: 20}}>Restaurants Ouverts</Text>
 
             <ScrollView>
+                <RestaurantsCard  title={"Le restaurant"} />
                 {
                     restaurants.map((restaurant, index) => {
                         return (

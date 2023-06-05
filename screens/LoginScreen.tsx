@@ -3,11 +3,14 @@ import { Text } from 'react-native-paper';
 import TextBox from "../components/TextBox";
 import CustomButton from "../components/CustomButton";
 import {useNavigation} from "@react-navigation/native";
+import {useDispatch, useSelector} from "react-redux";
+import {loginRequest} from "../redux/actions/LoginActions";
 
 
 const LoginScreen = () => {
-    const navigation = useNavigation();
-
+    const loginReducer = useSelector((state: any) => state.loginReducer);
+    const credentials : Credentials = {id : "test", password : "test", email : "test"};
+    const dispatch = useDispatch();
     return (
         <View style={styles.container}>
             <Text variant={"displaySmall"}>Connexion</Text>
@@ -17,7 +20,7 @@ const LoginScreen = () => {
             <TextBox icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
 
             <View style={styles.dividerView} />
-            <CustomButton label={"Connexion"} action={()  => navigation.replace("HomeScreen")}/>
+            <CustomButton label={"Connexion"} action={()  => dispatch(loginRequest(credentials)) }/>
         </View>
     )
 }
