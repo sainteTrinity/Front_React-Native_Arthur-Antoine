@@ -6,7 +6,7 @@ import SignInScreen from "../screens/SignInScreen";
 import HomeScreen from "../screens/HomeScreen";
 
 
-const StackNavigator = () => {
+const MainStackNavigator = () => {
 
     const Stack = createStackNavigator();
 
@@ -15,14 +15,11 @@ const StackNavigator = () => {
      */
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="MainScreen" screenOptions={
+            <Stack.Navigator initialRouteName="HomeScreen" screenOptions={
                 {
                     headerShown: false
                 }
             }>
-                <Stack.Screen name="MainScreen" component={MainScreen}/>
-                <Stack.Screen name="LoginScreen" component={LoginScreen}/>
-                <Stack.Screen name={"SignInScreen"} component={SignInScreen}/>
 
                 <Stack.Screen name={"HomeScreen"} component={HomeScreen}/>
             </Stack.Navigator>
@@ -30,4 +27,4 @@ const StackNavigator = () => {
     )
 }
 
-export default StackNavigator;
+export default MainStackNavigator;
