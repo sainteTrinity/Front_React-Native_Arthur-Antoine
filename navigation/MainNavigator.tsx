@@ -10,20 +10,16 @@ const MainStackNavigator = () => {
 
     const Stack = createStackNavigator();
 
-    /**
-     * TODO: Creer un StackNavigator pour extraire HomeScreen
-     */
     return (
-        <NavigationContainer>
             <Stack.Navigator initialRouteName="HomeScreen" screenOptions={
                 {
-                    headerShown: false
+                    headerShown: false,
+                    cardStyle: { backgroundColor: 'white' },
                 }
             }>
 
-                <Stack.Screen name={"HomeScreen"} component={HomeScreen}/>
+                <Stack.Screen name={"HomeScreen"} component={HomeScreen} />
             </Stack.Navigator>
-        </NavigationContainer>
     )
 }
 

@@ -4,7 +4,6 @@ import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import StackNavigator from "./navigation/LoginNavigator";
 import React from "react";
 import {StyleSheet} from "react-native";
-import MainStackNavigator from "./navigation/MainNavigator";
 import {Provider, useSelector} from "react-redux";
 import store from "./redux/store";
 import Router from "./navigation/Router";
