@@ -6,12 +6,13 @@ type SearchBoxProps = {
     setValueSearch?: (value:string) => void;
     avaibleOptions?: string[];
     placeholder?: string;
+    isOver? : boolean;
 }
 
 const SearchBox = (props : SearchBoxProps) => {
 
     const [searchQuery, setSearchQuery] = useState('');
-    const {setValueSearch, avaibleOptions, placeholder} = props;
+    const {setValueSearch, avaibleOptions, placeholder,isOver} = props;
 
     const onChangeSearch = (query: SetStateAction<string>) => {
         setSearchQuery(query);
@@ -24,7 +25,7 @@ const SearchBox = (props : SearchBoxProps) => {
     }, [searchQuery])
 
     return (
-        <View style={styles.container}>
+        <View style={isOver? styles.containerOver : styles.container}>
             <Searchbar
                 placeholder={placeholder ? placeholder : "Rechercher..."}
                 onChangeText={onChangeSearch}
@@ -44,7 +45,15 @@ const SearchBox = (props : SearchBoxProps) => {
 
 const styles = StyleSheet.create({
     container : {
-        margin: 20
+        margin: 10,
+    },
+    containerOver : {
+        zIndex: 1,
+        position: 'absolute',
+        top: 5,
+        left: 5,
+        right: 5,
+
     }
 })
 
