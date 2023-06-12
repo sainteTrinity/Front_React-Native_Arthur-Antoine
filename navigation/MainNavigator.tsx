@@ -4,6 +4,7 @@ import MainScreen from "../screens/MainScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignInScreen from "../screens/SignInScreen";
 import HomeScreen from "../screens/HomeScreen";
+import RestaurantScreen from "../screens/RestaurantScreen";
 
 
 const MainStackNavigator = () => {
@@ -19,6 +20,8 @@ const MainStackNavigator = () => {
             }>
 
                 <Stack.Screen name={"HomeScreen"} component={HomeScreen} />
+                <Stack.Screen name="RestaurantScreen" component={RestaurantScreen}/>
+
             </Stack.Navigator>
     )
 }
