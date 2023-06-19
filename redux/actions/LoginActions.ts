@@ -1,5 +1,4 @@
 
-
 export const loginRequest = (credentials: Credentials) => {
     return {
         type: 'LOGIN_REQUEST',

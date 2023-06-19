@@ -5,8 +5,18 @@ type Restaurant = {
 }
 
 type Credentials = {
+    username: string,
+    hashedPassword: string,
+    email?: string,
+    about?: string
+}
+
+type User = {
+    username: string,
+    hashedPassword: string,
     email: string,
-    password: string
-    id: string
+    friends?: [],
+    token?: string,
+    isLogged: boolean,
 }
 
