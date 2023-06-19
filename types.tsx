@@ -1,4 +1,5 @@
 type Restaurant = {
+    id: string,
     title: string,
     image?: string,
     categories?: string[]
