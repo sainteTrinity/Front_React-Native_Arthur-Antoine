@@ -22,17 +22,19 @@ type ActionType = {
     payload: any
 }
 
-const LoginReducer = (state = initialState, action:ActionType) => {
+const LoginReducer =  async (state = initialState, action: ActionType) => {
 
     switch (action.type) {
         case 'LOGIN_REQUEST':
 
-            const login = loginRequestMiddleware(state.credentials, action.payload);
-            return {...state, isLogin: login};
+            const resp =  await loginRequestMiddleware(action.payload, action.payload.dispatch);
+            console.log(resp)
+            return {...state, isLogin: resp};
+
 
         case 'SIGNUP_REQUEST':
 
-            const cred : Credentials = {
+            const cred: Credentials = {
                 username: action.payload.username,
                 hashedPassword: action.payload.hashedPassword,
                 email: action.payload.email,

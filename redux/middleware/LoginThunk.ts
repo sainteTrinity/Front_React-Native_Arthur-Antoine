@@ -7,25 +7,19 @@ import {useDispatch} from "react-redux";
 
 export const loginRequestMiddleware = async (credentials: Credentials, dispatch: (arg0: any) => void) => {
 
-    try {
-        credentials.hashedPassword = await bcrypt.hash(credentials.hashedPassword, "$2a$10$w4Zd8Z4Z8Z4Z8Z4Z8Z4Z8Z");
+    credentials.hashedPassword = await bcrypt.hash(credentials.hashedPassword, "$2a$10$w4Zd8Z4Z8Z4Z8Z4Z8Z4Z8Z");
 
-        const loginPromise = await fetch('https://lepetitchef-app.herokuapp.com/user/login?login=' + credentials.username + "&password=" + credentials.hashedPassword, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-        });
 
-        const respJSON = await loginPromise.json();
-
-        if (respJSON.token !== undefined) {
-            dispatch({type: 'SET_TOKEN', payload: respJSON.token});
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.log(error);
+    const response = await (await login(credentials)).json();
+    console.log(response)
+    if (response.token !== undefined) {
+        dispatch({type: 'SET_TOKEN', payload: response.token});
+        return true;
     }
+
+    return false;
+
+
 }
 
 export const signupRequestMiddleware = async (credentials: Credentials) => {
