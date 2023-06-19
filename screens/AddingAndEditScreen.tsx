@@ -40,7 +40,6 @@ const AddingAndEditScreen = () => {
                         <TextBox content={"Téléphone du restaurant"}/>
                         <View style={{height: 20}}/>
 
-
                         <TextBox content={"Site web du restaurant"}/>
                         <View style={{height: 20}}/>
 
@@ -51,7 +50,7 @@ const AddingAndEditScreen = () => {
 
                         <View style={{height: 20}}/>
 
-                        <CustomButton label={"Valider"} style={Style.validationButton}/>
+                        <CustomButton  label={"Valider"} style={Style.validationButton}/>
                     </View>
                     :
                     <>
@@ -91,7 +90,8 @@ const Style = StyleSheet.create({
         backgroundColor: "#008000",
         borderRadius: 10,
         justifyContent: "center",
-        alignItems: "center"
+        maxWidth: 200,
+        alignSelf: "center",
     },
 });
 export default AddingAndEditScreen;

@@ -3,18 +3,17 @@ import {StyleSheet} from "react-native";
 import React from "react";
 
 
-
 type CustomButtonProps = {
     label: string
     action?: Function
     size?: string
-        style?: StyleSheet | IntrinsicAttributes | CustomButtonProps
+    style?: any
 }
 const CustomButton = (props: CustomButtonProps) => {
     const {label, action, style} = props
 
     return (
-        <Button mode="contained" style={style? {...styles.button, ...style} : styles.button}  labelStyle={styles.label}
+        <Button mode="contained" style={style ? {...styles.button, ...style} : styles.button} labelStyle={styles.label}
                 onPress={() => action ? action() : null}>{label} </Button>
     )
 }
