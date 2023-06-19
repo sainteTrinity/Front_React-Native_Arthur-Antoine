@@ -1,5 +1,5 @@
 import React from "react";
-import {View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {DataTable, Divider, IconButton, Text} from 'react-native-paper';
 import CustomButton from "../components/CustomButton";
 import CustomFloatingButton from "../components/CustomFloatingButton";
@@ -44,14 +44,14 @@ const AddingAndEditScreen = () => {
                         <TextBox content={"Site web du restaurant"}/>
                         <View style={{height: 20}}/>
 
-                        <View style={{maxWidth: 200}}>
-                            <Text variant={"titleSmall"}> Localisation</Text>
-                            <CustomButton label={"Selectionner"}/>
+                        <View style={{maxWidth: 200, alignSelf: "center"}}>
+                            <Text variant={"titleMedium"} style={{alignSelf : "center"}}> Localisation</Text>
+                            <CustomButton label={"Selectionner"} />
                         </View>
 
                         <View style={{height: 20}}/>
 
-                        <CustomButton label={"Valider"}/>
+                        <CustomButton label={"Valider"} style={Style.validationButton}/>
                     </View>
                     :
                     <>
@@ -86,4 +86,12 @@ const AddingAndEditScreen = () => {
     )
 }
 
+const Style = StyleSheet.create({
+    validationButton: {
+        backgroundColor: "#008000",
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+});
 export default AddingAndEditScreen;
