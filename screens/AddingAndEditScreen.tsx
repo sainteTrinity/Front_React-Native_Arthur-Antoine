@@ -4,16 +4,17 @@ import {DataTable, Divider, IconButton, Text} from 'react-native-paper';
 import CustomButton from "../components/CustomButton";
 import CustomFloatingButton from "../components/CustomFloatingButton";
 import TextBox from "../components/TextBox";
+import {useSelector} from "react-redux";
 
 const AddingAndEditScreen = () => {
 
     const [adding, setAdding] = React.useState(false);
+    const restaurants : Array<Restaurant> = useSelector((state: any) => state.restaurantReducer.restaurants);
 
     const renderRow = (restaurant: Restaurant) => {
         return (
             <DataTable.Row>
-                <DataTable.Cell>{restaurant.id}</DataTable.Cell>
-                <DataTable.Cell>{restaurant.title}</DataTable.Cell>
+                <DataTable.Cell>{restaurant.name}</DataTable.Cell>
                 <DataTable.Cell>
                     <IconButton icon={"pencil"} iconColor={"green"} onPress={() => console.log("Edit")}/>
                     <IconButton icon={"delete"} iconColor={"red"} onPress={() => console.log("Delete")}/>
@@ -59,12 +60,11 @@ const AddingAndEditScreen = () => {
                         <View>
                             <DataTable>
                                 <DataTable.Header>
-                                    <DataTable.Title>Id</DataTable.Title>
                                     <DataTable.Title>Nom du restaurants</DataTable.Title>
                                     <DataTable.Title>Actions</DataTable.Title>
                                 </DataTable.Header>
                                 {
-                                    renderRow({id: "1", title: "Le petit chef"})
+                                    restaurants.map((restaurant) => renderRow(restaurant))
                                 }
                             </DataTable>
                         </View>

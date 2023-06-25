@@ -32,9 +32,13 @@ const HomeScreen = () => {
 
             <View style={styles.categorieTitle}>
                 <Text variant={"titleLarge"}>Catégories</Text>
-                <View style={styles.buttonContainer}>
+                {
+                    /*
+                    <View style={styles.buttonContainer}>
                     <Button style={styles.seeMore}>Voir tout</Button>
                 </View>
+                     */
+                }
             </View>
 
             <ListCategoriesLayout />

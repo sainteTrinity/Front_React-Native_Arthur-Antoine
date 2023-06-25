@@ -1,6 +1,6 @@
 import {Image, Pressable, View} from "react-native";
 import {Text} from "react-native-paper";
-import React from "react";
+import React, {useEffect} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useDispatch} from "react-redux";
@@ -26,16 +26,19 @@ const RestaurantsCard = (props : RestaurantsCardProps) => {
 
     const {restaurant} = props;
     const title = restaurant?.name;
-    const image = restaurant?.images && restaurant.images[0];
+    const image = restaurant?.images && restaurant.images[0].replace(/\s/g, "");
     const categories = restaurant?.categories;
 
+    useEffect(() => {
+        console.log(image)
+    }, [image])
 
     return (
         <Pressable onPress={() => goToDetails()}>
             <View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
                 <Image source={{uri : image}} style={{
-                    borderRadius: 10,
-                    aspectRatio : 1
+                    height: 200,
+                    width: "100%",
                 }}/>
 
                 <Text variant={"titleLarge"}>{title}</Text>
