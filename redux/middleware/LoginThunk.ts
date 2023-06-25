@@ -1,26 +1,31 @@
 import {login, register} from "../../services/UserService";
 import {setToken} from "../../util/JwtUtil";
-import {useState} from "react";
 import bcrypt from "bcryptjs";
-import {useDispatch} from "react-redux";
 
 
-export const loginRequestMiddleware = async (credentials: Credentials, dispatch: (arg0: any) => void) => {
+import { Dispatch, AnyAction } from 'redux';
 
-    credentials.hashedPassword = await bcrypt.hash(credentials.hashedPassword, "$2a$10$w4Zd8Z4Z8Z4Z8Z4Z8Z4Z8Z");
+export const loginThunk = (credentials: Credentials) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        try {
+            const response = await login(credentials);
+            if (response.ok) {
+                const reponse = await response.json();
+                const token = reponse.token;
+                await setToken(token);
+                console.log(token)
+                dispatch({ type: 'LOGIN_SUCCESS' });
+            } else {
+                dispatch({ type: 'LOGIN_FAILURE', payload: response.status });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
 
 
-    const response = await (await login(credentials)).json();
-    console.log(response)
-    if (response.token !== undefined) {
-        dispatch({type: 'SET_TOKEN', payload: response.token});
-        return true;
-    }
 
-    return false;
-
-
-}
 
 export const signupRequestMiddleware = async (credentials: Credentials) => {
     try {

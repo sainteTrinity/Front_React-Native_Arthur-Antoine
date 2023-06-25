@@ -1,9 +1,7 @@
-import {login, register} from "../../services/UserService";
-import {getToken, setToken} from "../../util/JwtUtil";
-import {loginRequest} from "../actions/LoginActions";
-import {loginRequestMiddleware, signupRequestMiddleware} from "../middleware/LoginThunk";
+import {loginThunk, signupRequestMiddleware} from "../middleware/LoginThunk";
+import {getToken} from "../../util/JwtUtil";
 
-const credentials : Credentials = {
+const credentials: Credentials = {
     username: "",
     hashedPassword: "",
     email: "",
@@ -22,15 +20,19 @@ type ActionType = {
     payload: any
 }
 
-const LoginReducer =  async (state = initialState, action: ActionType) => {
+const LoginReducer = (state = initialState, action: ActionType) => {
 
     switch (action.type) {
         case 'LOGIN_REQUEST':
 
-            const resp =  await loginRequestMiddleware(action.payload, action.payload.dispatch);
-            console.log(resp)
-            return {...state, isLogin: resp};
+            return {...state, credentials: action.payload};
+        case 'LOGIN_SUCCESS':
+            console.log('Login success');
+            return {...state, isLogin: true};
 
+        case 'LOGIN_FAILURE':
+            console.log('Login failure');
+            return {...state, isLogin: false};
 
         case 'SIGNUP_REQUEST':
 

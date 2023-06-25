@@ -6,6 +6,7 @@ import {useNavigation} from "@react-navigation/native";
 import {useDispatch, useSelector} from "react-redux";
 import {loginRequest} from "../redux/actions/LoginActions";
 import {useEffect, useState} from "react";
+import {loginThunk} from "../redux/middleware/LoginThunk";
 
 const LoginScreen = () => {
     const [login, setLogin] = useState<string>("");
@@ -15,7 +16,11 @@ const LoginScreen = () => {
     useEffect(() => {
         setCredentials({username: login, hashedPassword: password});
     }, [login, password])
+
+
     const dispatch = useDispatch();
+
+
     return (
         <View style={styles.container}>
             <Text variant={"displaySmall"}>Connexion</Text>
@@ -25,7 +30,7 @@ const LoginScreen = () => {
             <TextBox setContent={setPassword} icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
 
             <View style={styles.dividerView} />
-            <CustomButton label={"Connexion"} action={()  => dispatch(loginRequest(credentials)) }/>
+            <CustomButton label={"Connexion"} action={async () => await dispatch(loginThunk(credentials)) }/>
         </View>
     )
 }
