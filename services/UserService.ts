@@ -10,13 +10,16 @@ export const login =  async (credentials: Credentials) => {
     });
 }
 
-export const register = async (username: string, password: string, email: string, about: string) => {
+export const register = async (credentials : Credentials) => {
 
-        const hashedPassword = await bcrypt.hash(password, "$2a$10$w4Zd8Z4Z8Z4Z8Z4Z8Z4Z8Z");
+        const hashedPassword = await bcrypt.hash(credentials.hashedPassword, "$2a$10$w4Zd8Z4Z8Z4Z8Z4Z8Z4Z8Z");
+        const username = credentials.username;
+        const email = credentials.email;
+        const about = ""
 
         return await fetch('https://lepetitchef-app.herokuapp.com/user/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username, hashedPassword, email, about})
+            body: JSON.stringify({ username, hashedPassword, email, about})
         });
 }
