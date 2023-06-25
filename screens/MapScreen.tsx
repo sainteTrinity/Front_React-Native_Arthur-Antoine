@@ -35,15 +35,26 @@ const MapScreen = () => {
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
 
-            restaurants.map((rest) => {
+            restaurants.forEach((rest) => {
                 if (!rest.coordinates?.latitude || !rest.coordinates?.longitude) return;
-                setMarkers([...markers, { latitude: rest.coordinates.latitude, longitude: rest.coordinates.longitude, name: rest.name }])
-            })
+                setMarkers((prevMarkers) => [
+                    ...prevMarkers,
+                    {
+                        latitude: rest.coordinates.latitude,
+                        longitude: rest.coordinates.longitude,
+                        name: rest.name,
+                    },
+                ]);
+            });
+
+
+
         })();
     }, []);
 
     useEffect(() => {
         setMarkerToDisplay(markers);
+        console.log(markers);
     }, [markers]);
 
     const handleSearchValueChange = (value: string) => {

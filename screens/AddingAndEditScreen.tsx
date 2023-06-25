@@ -1,19 +1,38 @@
-import React from "react";
-import {StyleSheet, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Modal, StyleSheet, TouchableOpacity, View} from "react-native";
 import {DataTable, Divider, IconButton, Text} from 'react-native-paper';
 import CustomButton from "../components/CustomButton";
 import CustomFloatingButton from "../components/CustomFloatingButton";
 import TextBox from "../components/TextBox";
 import {useSelector} from "react-redux";
+import MapView from "react-native-maps";
+import * as Location from 'expo-location';
 
 const AddingAndEditScreen = () => {
 
     const [adding, setAdding] = React.useState(false);
     const restaurants : Array<Restaurant> = useSelector((state: any) => state.restaurantReducer.restaurants);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [location, setLocation] = useState<Location.LocationObject | null>(
+        null
+    );
+
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    }, []);
 
     const renderRow = (restaurant: Restaurant) => {
         return (
-            <DataTable.Row>
+            <DataTable.Row >
                 <DataTable.Cell>{restaurant.name}</DataTable.Cell>
                 <DataTable.Cell>
                     <IconButton icon={"pencil"} iconColor={"green"} onPress={() => console.log("Edit")}/>
@@ -46,12 +65,13 @@ const AddingAndEditScreen = () => {
 
                         <View style={{maxWidth: 200, alignSelf: "center"}}>
                             <Text variant={"titleMedium"} style={{alignSelf : "center"}}> Localisation</Text>
-                            <CustomButton label={"Selectionner"} />
+                            <CustomButton label={"Selectionner"} action={() => setModalVisible(true)}/>
                         </View>
 
                         <View style={{height: 20}}/>
 
                         <CustomButton  label={"Valider"} style={Style.validationButton}/>
+
                     </View>
                     :
                     <>
@@ -81,6 +101,45 @@ const AddingAndEditScreen = () => {
                         </View>
                     </>
             }
+            <Modal visible={modalVisible}>
+                <View style={{ flex: 1 }}>
+                    <MapView
+                        style={{ flex: 1 }}
+                        initialRegion={{
+                            latitude: location?.coords.latitude || 0,
+                            longitude: location?.coords.longitude || 0,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
+                    />
+                    <TouchableOpacity
+                        onPress={() => setModalVisible(!modalVisible)}
+                        style={{
+                            position: "absolute",
+                            top: 16,
+                            left: 16,
+                            backgroundColor: "white",
+                            borderRadius: 10,
+                            padding: 8,
+                        }}
+                    >
+                        <Text>Retour</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => setModalVisible(false)}
+                        style={{
+                            position: "absolute",
+                            top: 16,
+                            right: 16,
+                            backgroundColor: "#90EE90",
+                            borderRadius: 10,
+                            padding: 8,
+                        }}
+                    >
+                        <Text>Valider</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </View>
     )
 }

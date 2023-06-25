@@ -30,18 +30,25 @@ const HomeScreen = () => {
 
             <SearchBox/>
 
-            <View style={styles.categorieTitle}>
+            {
+                /**
+                 * For V1.2
+                 */
+                /*
+                <View style={styles.categorieTitle}>
                 <Text variant={"titleLarge"}>Catégories</Text>
                 {
-                    /*
+
                     <View style={styles.buttonContainer}>
                     <Button style={styles.seeMore}>Voir tout</Button>
                 </View>
-                     */
+
                 }
             </View>
 
             <ListCategoriesLayout />
+                 */
+            }
 
 
             <Text variant={"titleLarge"} style={{marginTop: 20}}>Restaurants Ouverts</Text>
