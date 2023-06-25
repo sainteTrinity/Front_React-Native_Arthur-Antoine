@@ -5,7 +5,7 @@ import {useState} from "react";
 
 type TextBoxProps = {
     content?: string;
-    setContent?: (content: string) => string;
+    setContent?: (content: string) => void;
     icon?: string;
     secureTextEntry?: boolean;
 

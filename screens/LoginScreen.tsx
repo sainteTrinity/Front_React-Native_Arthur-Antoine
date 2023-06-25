@@ -5,22 +5,32 @@ import CustomButton from "../components/CustomButton";
 import {useNavigation} from "@react-navigation/native";
 import {useDispatch, useSelector} from "react-redux";
 import {loginRequest} from "../redux/actions/LoginActions";
-
+import {useEffect, useState} from "react";
+import {loginThunk} from "../redux/middleware/LoginThunk";
 
 const LoginScreen = () => {
-    const loginReducer = useSelector((state: any) => state.loginReducer);
-    const credentials : Credentials = {id : "test", password : "test", email : "test"};
+    const [login, setLogin] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [credentials, setCredentials] = useState<Credentials>({username: login, hashedPassword: password});
+
+    useEffect(() => {
+        setCredentials({username: login, hashedPassword: password});
+    }, [login, password])
+
+
     const dispatch = useDispatch();
+
+
     return (
         <View style={styles.container}>
             <Text variant={"displaySmall"}>Connexion</Text>
             <View style={styles.dividerView} />
-            <TextBox content="Identifiant" icon="account"/>
+            <TextBox setContent={setLogin} content="Identifiant"  icon="account"/>
             <View style={styles.dividerView} />
-            <TextBox icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
+            <TextBox setContent={setPassword} icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
 
             <View style={styles.dividerView} />
-            <CustomButton label={"Connexion"} action={()  => dispatch(loginRequest(credentials)) }/>
+            <CustomButton label={"Connexion"} action={async () => await dispatch(loginThunk(credentials)) }/>
         </View>
     )
 }
