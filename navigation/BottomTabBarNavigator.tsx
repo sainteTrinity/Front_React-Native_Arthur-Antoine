@@ -1,12 +1,14 @@
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {BottomTabBarButtonProps, BottomTabBarProps, createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import MainStackNavigator from "./MainNavigator";
 import {HOME, MAP} from "../assets/icon/icons";
 import CustomFloatingButton from "../components/CustomFloatingButton";
+import AddingAndEditScreen from "../screens/AddingAndEditScreen";
 import MapScreen from "../screens/MapScreen";
 
 const BottomTabBarNavigator = () => {
+
     const BottomTabNavigator = createBottomTabNavigator();
     return (
         <NavigationContainer>
@@ -20,24 +22,25 @@ const BottomTabBarNavigator = () => {
                                            options={{
                                                title: '',
                                                tabBarIcon: ({color}) => (
-                                                   <HOME width={30} height={30} />
+                                                   <HOME width={30} height={30}/>
                                                ),
 
                                            }}/>
 
-                <BottomTabNavigator.Screen name="Plus" component={MainStackNavigator}
-                                           options={{
+                <BottomTabNavigator.Screen name="Plus" component={AddingAndEditScreen}
+                                           options={({navigation })  => ({
                                                title: '',
-                                               tabBarButton: (props) => <CustomFloatingButton  />,
-                                           }} />
+                                               tabBarButton: (props) => <CustomFloatingButton
+                                                   onPress={() => navigation.navigate("Plus")} content={"+"}/>,
+                                           })}/>
 
                 <BottomTabNavigator.Screen name="Map" component={MapScreen}
                                            options={{
                                                title: '',
-                                                  tabBarIcon: ({color}) => (
-                                                      <MAP  width={30} height={30} />
-                                                    ),
-                                           }} />
+                                               tabBarIcon: ({color}) => (
+                                                   <MAP width={30} height={30}/>
+                                               ),
+                                           }}/>
             </BottomTabNavigator.Navigator>
         </NavigationContainer>
     )
