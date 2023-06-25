@@ -1,42 +1,60 @@
-import {TextInput} from "react-native-paper";
-import {StyleSheet, View} from "react-native";
-import {useState} from "react";
-
+import { TextInput, Text } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { useState } from "react";
 
 type TextBoxProps = {
     content?: string;
     setContent?: (content: string) => void;
     icon?: string;
     secureTextEntry?: boolean;
+    error?: string | null; // Ajout de la prop error
+};
 
-}
 const TextBox = (props: TextBoxProps) => {
-    const {content, setContent, icon, secureTextEntry} = props;
+    const { content, setContent, icon, secureTextEntry, error } = props;
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
     const [label, setLabel] = useState(content);
+
     const showPassword = () => {
-        setPasswordVisible(!isPasswordVisible)
-    }
+        setPasswordVisible(!isPasswordVisible);
+    };
+
     return (
         <View style={styles.textBox}>
-            <TextInput left={icon ? <TextInput.Icon icon={icon ? icon : ''}/> : null}
-                       right={secureTextEntry ? <TextInput.Icon icon={'eye'} onPress={() => showPassword()}/> : null}
-                       onChangeText={text => setContent ? setContent(text) : setLabel(text)}
-                       style={styles.textInput} underlineColor={"transparent"} placeholder={setContent ? content : label}
-                       secureTextEntry={secureTextEntry && !isPasswordVisible}/>
+            <TextInput
+                left={icon ? <TextInput.Icon icon={icon ? icon : ""} /> : null}
+                right={
+                    secureTextEntry ? (
+                        <TextInput.Icon icon={isPasswordVisible ? "eye-off" : "eye"} onPress={() => showPassword()} />
+                    ) : null
+                }
+                onChangeText={(text) => (setContent ? setContent(text) : setLabel(text))}
+                style={styles.textInput}
+                underlineColor="transparent"
+                placeholder={setContent ? content : label}
+                secureTextEntry={secureTextEntry && !isPasswordVisible}
+                error={!!error} // Ajout de la prop error pour afficher l'erreur
+            />
+            {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     textInput: {
         backgroundColor: "#F4F4F4",
-        borderRadius: 30,
     },
     textBox: {
-        borderRadius: 30,
         overflow: "hidden",
-    }
+    },
+    errorText: {
+        color: "red",
+        fontSize: 12,
+        marginTop: 5,
+        flexWrap: "wrap",
+        width: "100%",
+    },
 });
+
 export default TextBox;
