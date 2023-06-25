@@ -4,6 +4,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import MainStackNavigator from "./MainNavigator";
 import {HOME, MAP} from "../assets/icon/icons";
 import CustomFloatingButton from "../components/CustomFloatingButton";
+import MapScreen from "../screens/MapScreen";
 
 const BottomTabBarNavigator = () => {
     const BottomTabNavigator = createBottomTabNavigator();
@@ -30,7 +31,7 @@ const BottomTabBarNavigator = () => {
                                                tabBarButton: (props) => <CustomFloatingButton  />,
                                            }} />
 
-                <BottomTabNavigator.Screen name="Map" component={MainStackNavigator}
+                <BottomTabNavigator.Screen name="Map" component={MapScreen}
                                            options={{
                                                title: '',
                                                   tabBarIcon: ({color}) => (

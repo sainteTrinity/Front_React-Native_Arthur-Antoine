@@ -11,8 +11,6 @@ import Router from "./navigation/Router";
 export default function App() {
     return (
             <SafeAreaProvider >
-                <SafeAreaView style={styles.topSafeArea}/>
-
                 <SafeAreaView style={styles.mainSafeArea} >
                     <Provider store={store}>
                         <Router />
