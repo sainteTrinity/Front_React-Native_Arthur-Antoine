@@ -46,6 +46,7 @@ const SignInScreen = () => {
             return;
         }
 
+        // @ts-ignore
         dispatch(signupThunk(credentials));
     }
 

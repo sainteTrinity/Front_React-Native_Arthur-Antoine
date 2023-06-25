@@ -34,7 +34,7 @@ export const AddRestaurantThunk = (token: string, restaurant: Restaurant) => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                dispatch(setRestaurantsList(data));
+
             }
         } catch (error) {
             console.log(error);

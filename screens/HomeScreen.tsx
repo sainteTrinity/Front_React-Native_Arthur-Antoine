@@ -14,6 +14,7 @@ const HomeScreen = () => {
     useEffect(() => {
         SecureStore.getItemAsync('token').then((token) => {
             if (token) {
+                // @ts-ignore
                 dispatch(RestaurantThunk(token))
             }
         })

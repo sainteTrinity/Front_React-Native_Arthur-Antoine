@@ -9,7 +9,7 @@ import MapView, {Marker} from "react-native-maps";
 import * as Location from 'expo-location';
 import {setRestaurant} from "../redux/actions/RestaurantsActions";
 import * as SecureStore from "expo-secure-store";
-import {RestaurantThunk} from "../redux/middleware/RestaurantThunk";
+import {AddRestaurantThunk, RestaurantThunk} from "../redux/middleware/RestaurantThunk";
 
 const AddingAndEditScreen = () => {
     const dispatch = useDispatch();
@@ -69,7 +69,10 @@ const AddingAndEditScreen = () => {
         SecureStore.getItemAsync('token').then((token) => {
             if (token) {
                 // @ts-ignore
-                dispatch(AddRestaurant(token,restaurant))
+                dispatch(AddRestaurantThunk(token,restaurant))
+                // @ts-ignore
+                dispatch(RestaurantThunk(token))
+
             }
         })
 
@@ -108,7 +111,7 @@ const AddingAndEditScreen = () => {
 
                         <View style={{height: 20}}/>
 
-                        <CustomButton  label={"Valider"} style={Style.validationButton} action={() => AddRestaurant}/>
+                        <CustomButton  label={"Valider"} style={Style.validationButton} action={() => AddRestaurant()}/>
 
                     </View>
                     :
