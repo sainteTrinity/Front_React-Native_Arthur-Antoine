@@ -3,25 +3,37 @@ import {Text} from "react-native-paper";
 import React from "react";
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {useDispatch} from "react-redux";
+import {setRestaurant} from "../redux/actions/RestaurantsActions";
 
 type RestaurantsCardProps = {
-    title: string,
-    image?: string,
-    categories?: string[]
+    restaurant: Restaurant,
+
 
 }
 
 type MainScreenNavigationProp = StackNavigationProp<any>;
 
+
 const RestaurantsCard = (props : RestaurantsCardProps) => {
+    const dispatch = useDispatch();
+
+    const goToDetails = () => {
+        dispatch(setRestaurant(restaurant))
+        navigation.navigate('RestaurantScreen')
+    }
     const navigation = useNavigation<MainScreenNavigationProp>();
 
-    const {title, image, categories} = props;
+    const {restaurant} = props;
+    const title = restaurant?.name;
+    const image = restaurant?.images && restaurant.images[0];
+    const categories = restaurant?.categories;
+
 
     return (
-        <Pressable onPress={() => navigation.navigate('RestaurantScreen')}>
+        <Pressable onPress={() => goToDetails()}>
             <View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
-                <Image source={require('../assets/images/resto.png')} style={{
+                <Image source={{uri : image}} style={{
                     borderRadius: 10,
                     aspectRatio : 2
                 }}/>

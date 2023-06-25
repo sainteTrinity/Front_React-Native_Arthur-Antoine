@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Divider, IconButton, Text} from 'react-native-paper';
 import {
     Dimensions,
@@ -8,11 +8,18 @@ import {
     ScrollView,
     View
 } from "react-native";
+import {useSelector} from "react-redux";
 
 type GalelryType = {
     source: ImageSourcePropType;
 }
 const RestaurantScreen = () => {
+    const restaurant : Restaurant= useSelector((state: any) => state.restaurantReducer.restaurantSelected)
+
+    useEffect(() => {
+        console.log(restaurant)
+
+    }, [restaurant]);
     const images = [
         {id: '1', source: require('../assets/images/resto.png')},
         {id: '2', source: require('../assets/images/resto.png')},
@@ -37,6 +44,8 @@ const RestaurantScreen = () => {
     };
 
     return (
+
+
         <>
             <ScrollView>
                 <View>
@@ -46,14 +55,12 @@ const RestaurantScreen = () => {
                         height: 200,
 
                     }}/>
-                    <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleLarge"}>Le restaurant</Text>
+                    <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleLarge"}>{restaurant.name}</Text>
 
                     <Divider style={{marginLeft: 20, marginRight: 20, marginTop: 10}}/>
 
                     <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleMedium"}>Description</Text>
-                    <Text style={{marginTop: 2, marginLeft: 35}} variant={"bodyMedium"}>Lorem ipsum dolor sit amet,
-                        consectetur
-                        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+                    <Text style={{marginTop: 2, marginLeft: 35}} variant={"bodyMedium"}>{restaurant.description}</Text>
 
                     <View style={{
                         flexDirection: "row", alignItems: 'center',

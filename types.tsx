@@ -1,7 +1,8 @@
 type Restaurant = {
-    title: string,
-    image?: string,
+    name: string,
+    images?: string[],
     categories?: string[]
+    description?: string,
 }
 
 type Credentials = {

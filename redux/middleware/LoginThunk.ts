@@ -13,7 +13,6 @@ export const loginThunk = (credentials: Credentials) => {
                 const reponse = await response.json();
                 const token = reponse.token;
                 await setToken(token);
-                console.log(token)
                 dispatch({ type: 'LOGIN_SUCCESS' });
             } else {
                 dispatch({ type: 'LOGIN_FAILURE', payload: response.status });

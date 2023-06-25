@@ -1,15 +1,30 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ScrollView, StyleSheet, View} from "react-native";
 import {Button, IconButton, Text} from 'react-native-paper';
 import SearchBox from "../components/SearchBox";
 import ListCategoriesLayout from "./layout/ListCategoriesLayout";
 import RestaurantsCard from "../components/RestaurantsCard";
+import {useDispatch, useSelector} from "react-redux";
+import {RestaurantThunk} from "../redux/middleware/RestaurantThunk";
+import * as SecureStore from 'expo-secure-store';
 
 const HomeScreen = () => {
-    //TODO: A remplacer par redux
-    const [restaurants, setRestaurants] = React.useState<Array<Restaurant>>([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        SecureStore.getItemAsync('token').then((token) => {
+            if (token) {
+                dispatch(RestaurantThunk(token))
+            }
+        })
+    }, [dispatch])
+
+    const restaurants : Array<Restaurant> = useSelector((state: any) => state.restaurantReducer.restaurants);
+
+
     return (
         <View style={styles.container}>
+
             <Text variant={"titleMedium"}>Hey !</Text>
             <Text variant={"displaySmall"}>Une petite faim ?</Text>
 
@@ -27,15 +42,21 @@ const HomeScreen = () => {
 
             <Text variant={"titleLarge"} style={{marginTop: 20}}>Restaurants Ouverts</Text>
 
+
             <ScrollView>
-                <RestaurantsCard  title={"Le restaurant"} />
                 {
-                    restaurants.map((restaurant, index) => {
-                        return (
-                            <RestaurantsCard key={index} title={restaurant.title} image={restaurant.image}
-                                             categories={restaurant.categories}/>
-                        )
-                    })
+                    restaurants  && restaurants.length > 0 ?
+                        restaurants.map((restaurant : Restaurant, index) => {
+                            return (
+                                <RestaurantsCard
+                                    key={index}
+                                    restaurant={restaurant}
+                                />
+
+                            )
+                        })
+                        :
+                        <Text>Chargement...</Text>
                 }
 
             </ScrollView>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import MapView, { UrlTile, Marker } from "react-native-maps";
+import React, {useEffect, useState} from "react";
+import {TouchableOpacity, View} from "react-native";
+import MapView, {UrlTile, Marker} from "react-native-maps";
 import * as Location from 'expo-location';
-import { LocationObject } from "expo-location";
+import {LocationObject} from "expo-location";
 import SearchBox from "../components/SearchBox";
 
 const MapScreen = () => {
@@ -11,7 +11,7 @@ const MapScreen = () => {
 
     useEffect(() => {
         (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
+            let {status} = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 return;
             }
@@ -24,13 +24,11 @@ const MapScreen = () => {
     }, []);
 
 
-
-
     return (
-        <View style={{flex : 1}}>
+        <View style={{flex: 1}}>
             <SearchBox isOver={true}/>
             <MapView
-                style={{ flex: 1 }}
+                style={{flex: 1}}
                 region={{
                     latitude: location?.coords.latitude || 0,
                     longitude: location?.coords.longitude || 0,
@@ -38,7 +36,7 @@ const MapScreen = () => {
                     longitudeDelta: 0.0421,
                 }}
             >
-                <UrlTile urlTemplate={"http://c.tile.openstreetmap.org/{z}/{x}/{y}.png"} />
+                <UrlTile urlTemplate={"http://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}/>
                 {location && (
                     <Marker
                         coordinate={{
@@ -50,20 +48,23 @@ const MapScreen = () => {
                         image={require("../assets/icon/map-pin.png")}
                     />
                 )}
+
+
             </MapView>
+            <TouchableOpacity
+            style={{
+                position: 'absolute',
+                bottom: 16,
+                right: 16,
+                backgroundColor: 'white',
+                borderRadius: 32,
+                padding: 8,
+            }}
+        >
+
+        </TouchableOpacity>
         </View>
     );
 };
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        bottom: 16,
-                        right: 16,
-                        backgroundColor: 'white',
-                        borderRadius: 32,
-                        padding: 8,
-                    }}
-                >
 
-                </TouchableOpacity>
 export default MapScreen;
