@@ -78,7 +78,8 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     container : {
         marginLeft: 15,
-        marginRight: 15
+        marginRight: 15,
+        flex: 1,
     },
 
     categorieTitle: {

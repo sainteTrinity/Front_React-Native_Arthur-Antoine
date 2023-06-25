@@ -36,15 +36,17 @@ const MapScreen = () => {
             setLocation(location);
 
             restaurants.forEach((rest) => {
-                if (!rest.coordinates?.latitude || !rest.coordinates?.longitude) return;
-                setMarkers((prevMarkers) => [
-                    ...prevMarkers,
-                    {
-                        latitude: rest.coordinates.latitude,
-                        longitude: rest.coordinates.longitude,
-                        name: rest.name,
-                    },
-                ]);
+                if (rest.coordinates && rest.coordinates){
+                    setMarkers((prevMarkers) => [
+                        ...prevMarkers,
+                        {
+                            latitude: rest.coordinates.latitude,
+                            longitude: rest.coordinates.longitude,
+                            name: rest.name,
+                        },
+                    ]);
+                }
+
             });
 
 
