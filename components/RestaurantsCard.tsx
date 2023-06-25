@@ -35,8 +35,9 @@ const RestaurantsCard = (props : RestaurantsCardProps) => {
             <View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
                 <Image source={{uri : image}} style={{
                     borderRadius: 10,
-                    aspectRatio : 2
+                    aspectRatio : 1
                 }}/>
+
                 <Text variant={"titleLarge"}>{title}</Text>
 
                 <View style={{flexDirection : "row"}}>

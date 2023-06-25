@@ -3,6 +3,8 @@ type Restaurant = {
     images?: string[],
     categories?: string[]
     description?: string,
+    coordinates?: Coords,
+
 }
 
 type Credentials = {
@@ -21,3 +23,9 @@ type User = {
     isLogged: boolean,
 }
 
+
+type Coords = {
+    name?: string,
+    latitude: number,
+    longitude: number,
+}
