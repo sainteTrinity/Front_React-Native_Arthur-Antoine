@@ -51,7 +51,13 @@ const RestaurantScreen = () => {
                         <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleMedium"}>Description</Text>
                         <Text style={{marginTop: 2, marginLeft: 35}} variant={"bodyMedium"}>{restaurant.description}</Text>
 
-                        <View style={{
+                        {
+                            /**
+                             * TODO : MENU FOR NEXT UPDATE
+                             */
+
+                            /*
+                             <View style={{
                             flexDirection: "row", alignItems: 'center',
                             justifyContent: 'space-between', marginLeft: 30, marginRight: 10
                         }}>
@@ -66,6 +72,9 @@ const RestaurantScreen = () => {
                             height: 290,
                             marginTop: 10
                         }}/>
+                             */
+                        }
+
 
                         <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleMedium"}>Galerie</Text>
                     </View>

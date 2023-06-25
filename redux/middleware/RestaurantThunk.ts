@@ -22,3 +22,22 @@ export const RestaurantThunk = (token: string) => {
         }
     };
 };
+
+export const AddRestaurantThunk = (token: string, restaurant: Restaurant) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        try {
+            const response = await fetch('https://lepetitchef-app.herokuapp.com/restaurant', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + token},
+                body: JSON.stringify(restaurant)
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                dispatch(setRestaurantsList(data));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}

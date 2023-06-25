@@ -5,6 +5,9 @@ type Restaurant = {
     categories?: string[]
     description?: string,
     coordinates?: Coords,
+    telephone?: string,
+    website?: string,
+    address?: string,
 
 }
 

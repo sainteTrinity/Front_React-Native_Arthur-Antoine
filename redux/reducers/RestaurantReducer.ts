@@ -12,6 +12,9 @@ const restaurantReducer = (state = initialState, action: any) => {
 
         case 'RESTAURANT_SELECTED' :
             return {...state, restaurantSelected: action.payload};
+
+            case 'ADD_RESTAURANT':
+                return {...state, restaurants: action.payload};
         default:
             return state;
     }
