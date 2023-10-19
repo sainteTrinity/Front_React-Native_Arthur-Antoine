@@ -1,1 +1,3 @@
-[Slides](https://iutsa01.blob.core.windows.net/react-native/ReactNative.pdf)
+Dans le cas ou ou le Register ne marche pas (on sait jamais) ->
+username = Test1
+password = Test
