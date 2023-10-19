@@ -27,11 +27,9 @@ const LoginReducer = (state = initialState, action: ActionType) => {
 
             return {...state, credentials: action.payload};
         case 'LOGIN_SUCCESS':
-            console.log('Login success');
             return {...state, isLogin: true};
 
         case 'LOGIN_FAILURE':
-            console.log('Login failure');
             return {...state, isLogin: false};
 
         case 'SIGNUP_REQUEST':

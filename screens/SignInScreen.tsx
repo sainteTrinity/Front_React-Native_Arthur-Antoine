@@ -30,7 +30,6 @@ const SignInScreen = () => {
     }, [username, password, email])
 
     useEffect(() => {
-        console.log(credentials);
     }, [credentials])
 
     const dispatch = useDispatch();

@@ -1,21 +1,24 @@
-import React, {useEffect, useState} from "react";
-import {Modal, StyleSheet, TouchableOpacity, View} from "react-native";
-import {DataTable, Divider, IconButton, Text} from 'react-native-paper';
+import React, { useEffect, useState } from "react";
+import {Alert, Modal, StyleSheet, TouchableOpacity, View} from "react-native";
+import { DataTable, Divider, IconButton, Text } from "react-native-paper";
 import CustomButton from "../components/CustomButton";
 import CustomFloatingButton from "../components/CustomFloatingButton";
 import TextBox from "../components/TextBox";
-import {useDispatch, useSelector} from "react-redux";
-import MapView, {Marker} from "react-native-maps";
-import * as Location from 'expo-location';
-import {setRestaurant} from "../redux/actions/RestaurantsActions";
+import { useDispatch, useSelector } from "react-redux";
+import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
+import { setRestaurant } from "../redux/actions/RestaurantsActions";
 import * as SecureStore from "expo-secure-store";
-import {RestaurantThunk} from "../redux/middleware/RestaurantThunk";
+import { RestaurantThunk } from "../redux/middleware/RestaurantThunk";
+import { MaterialIcons } from "@expo/vector-icons"; // Adding icons
 
 const AddingAndEditScreen = () => {
     const dispatch = useDispatch();
 
     const [adding, setAdding] = React.useState(false);
-    const restaurants : Array<Restaurant> = useSelector((state: any) => state.restaurantReducer.restaurants);
+    const restaurants: Array<Restaurant> = useSelector(
+        (state: any) => state.restaurantReducer.restaurants
+    );
     const [modalVisible, setModalVisible] = useState(false);
 
     const [name, setName] = useState("");
@@ -25,6 +28,13 @@ const AddingAndEditScreen = () => {
     const [website, setWebsite] = useState("");
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+
+    const [isNameValid, setNameValid] = useState(false);
+    const [isDescriptionValid, setDescriptionValid] = useState(false);
+    const [isAddressValid, setAddressValid] = useState(false);
+    const [isPhoneValid, setPhoneValid] = useState(false);
+    const [isWebsiteValid, setWebsiteValid] = useState(false);
+    const [isFormValid, setFormValid] = useState(false);
 
     const [location, setLocation] = useState<Location.LocationObject | null>(
         null
@@ -44,105 +54,152 @@ const AddingAndEditScreen = () => {
 
     const renderRow = (restaurant: Restaurant) => {
         return (
-            <DataTable.Row >
+            <DataTable.Row>
                 <DataTable.Cell>{restaurant.name}</DataTable.Cell>
                 <DataTable.Cell>
-                    <IconButton icon={"pencil"} iconColor={"green"} onPress={() => console.log("Edit")}/>
-                    <IconButton icon={"delete"} iconColor={"red"} onPress={() => console.log("Delete")}/>
+                    <IconButton
+                        icon="pencil"
+                        iconColor="green"
+                        onPress={() => console.log("Edit")}
+                    />
+                    <IconButton
+                        icon="delete"
+                        iconColor="red"
+                        onPress={() => console.log("Delete")}
+                    />
                 </DataTable.Cell>
             </DataTable.Row>
-        )
-    }
+        );
+    };
+
+    const validateName = () => {
+        const isValid = name.trim().length > 0;
+        setNameValid(isValid);
+        return isValid;
+    };
+
+    const validateDescription = () => {
+        const isValid = description.trim().length > 0;
+        setDescriptionValid(isValid);
+        return isValid;
+    };
+
+    const validateAddress = () => {
+        const isValid = address.trim().length > 0;
+        setAddressValid(isValid);
+        return isValid;
+    };
+
+    const validatePhone = () => {
+        // Add your phone number validation logic here
+        const isValid = phone.match(/\d{10}/); // Change this pattern as needed
+        // @ts-ignore
+        setPhoneValid(isValid);
+        return isValid;
+    };
+
+    const validateWebsite = () => {
+        // Add your website URL validation logic here
+        const isValid = website.match(/^https?:\/\/.+\..+/); // Change this pattern as needed
+        // @ts-ignore
+        setWebsiteValid(isValid);
+        return isValid;
+    };
+
+    const validateForm = () => {
+        const isValid =
+            validateName() &&
+            validateDescription() &&
+            validateAddress() &&
+            validatePhone() &&
+            validateWebsite();
+        // @ts-ignore
+        setFormValid(isValid);
+        return isValid;
+    };
 
     const AddRestaurant = () => {
-        const restaurant : Restaurant = {
-            name: name,
-            description: description,
-            telephone: phone,
-            website: website,
-            coordinates: {
-                latitude: latitude,
-                longitude: longitude
-            },
-            address: address
+        if (validateForm()) {
+            const restaurant: Restaurant = {
+                name: name,
+                description: description,
+                phoneNumber: phone,
+                website: website,
+                coordinates: {
+                    latitude: latitude,
+                    longitude: longitude,
+                },
+                address: address,
+            };
+            SecureStore.getItemAsync("token").then((token) => {
+                if (token) {
+                    // @ts-ignore
+                    dispatch(AddRestaurant(token, restaurant));
+                }
+            });
+        } else {
+            Alert.alert("Validation Error", "Please fill out all fields correctly.");
         }
-        SecureStore.getItemAsync('token').then((token) => {
-            if (token) {
-                // @ts-ignore
-                dispatch(AddRestaurant(token,restaurant))
-            }
-        })
-
-
-
-    }
+    };
 
     return (
-        <View style={{marginLeft: 10, flex: 1}}>
-            {
-                adding  ?
-                    <View>
-                        <CustomFloatingButton onPress={() => setAdding(false)} floatingPosition={"top-left"}
-                                              content={"<"}/>
-                        <Text style={{alignSelf: "center", marginTop: 20}} variant={"titleLarge"}>Ajouter un restaurant</Text>
-                        <View style={{height: 20}}/>
-                        <TextBox content={"Nom du restaurant"} setContent={setName}/>
-                        <View style={{height: 20}}/>
-
-                        <TextBox content={"Description du restaurant"} setContent={setDescription}/>
-                        <View style={{height: 20}}/>
-
-                        <TextBox content={"Téléphone du restaurant"} setContent={setPhone}/>
-                        <View style={{height: 20}}/>
-
-                        <TextBox content={"Adresse du restaurant"} setContent={setAddress}/>
-                        <View style={{height: 20}}/>
-
-                        <TextBox content={"Site web du restaurant"} setContent={setWebsite}/>
-                        <View style={{height: 20}}/>
-
-                        <View style={{maxWidth: 200, alignSelf: "center"}}>
-                            <Text variant={"titleMedium"} style={{alignSelf : "center"}}> Localisation</Text>
-                            <CustomButton label={"Selectionner"} action={() => setModalVisible(true)}/>
-                        </View>
-
-                        <View style={{height: 20}}/>
-
-                        <CustomButton  label={"Valider"} style={Style.validationButton} action={() => AddRestaurant}/>
-
+        <View style={styles.container}>
+            {adding ? (
+                <View style={styles.addingContainer}>
+                    <CustomFloatingButton
+                        onPress={() => setAdding(false)}
+                        floatingPosition="top-left"
+                        content={<MaterialIcons name="arrow-back" size={24} color="white" />}
+                    />
+                    <Text style={styles.addingTitle}>Ajouter un restaurant</Text>
+                    <TextBox content="Nom du restaurant" setContent={setName} />
+                    <TextBox content="Description du restaurant" setContent={setDescription} />
+                    <TextBox content="Téléphone du restaurant" setContent={setPhone} />
+                    <TextBox content="Adresse du restaurant" setContent={setAddress} />
+                    <TextBox content="Site web du restaurant" setContent={setWebsite} />
+                    <View style={styles.locationContainer}>
+                        <Text variant="titleMedium" style={styles.locationTitle}>
+                            Localisation
+                        </Text>
+                        <CustomButton
+                            label="Sélectionner"
+                            action={() => setModalVisible(true)}
+                            style={styles.locationButton}
+                        />
                     </View>
-                    :
-                    <>
-                        <Text style={{marginTop: 40, marginLeft: 10}} variant={"titleLarge"}>Liste des restaurtants</Text>
-
-                        <View>
-                            <DataTable>
-                                <DataTable.Header>
-                                    <DataTable.Title>Nom du restaurants</DataTable.Title>
-                                    <DataTable.Title>Actions</DataTable.Title>
-                                </DataTable.Header>
-                                {
-                                    restaurants?.map((restaurant) => renderRow(restaurant))
-                                }
-                            </DataTable>
-                        </View>
-
-                        <View style={{flex: 1}}/>
-                        <Divider/>
-
-                        <View style={{marginBottom: 40, marginLeft: 10, marginRight: 10}}>
-                            <Text style={{marginBottom: 5, marginTop: 10}} variant={"titleLarge"}>Envie de rajouter un
-                                restaurant
-                                ?</Text>
-                            <CustomButton label={"Ajouter un restaurant"}
-                                          action={() => setAdding(true)}/>
-                        </View>
-                    </>
-            }
+                    <CustomButton
+                        label="Valider"
+                        style={styles.validationButton}
+                        action={AddRestaurant}
+                    />
+                </View>
+            ) : (
+                <View style={styles.listContainer}>
+                    <Text style={styles.listTitle}>Liste des restaurants</Text>
+                    <DataTable>
+                        <DataTable.Header>
+                            <DataTable.Title>Nom du restaurant</DataTable.Title>
+                            <DataTable.Title>Actions</DataTable.Title>
+                        </DataTable.Header>
+                        {restaurants?.map((restaurant) => renderRow(restaurant))}
+                    </DataTable>
+                    <Divider />
+                    <View style={styles.addButtonContainer}>
+                        <Text style={styles.addButtonText}>
+                            Envie de rajouter un restaurant ?
+                        </Text>
+                        <CustomButton
+                            label="Ajouter un restaurant"
+                            action={() => setAdding(true)}
+                            style={styles.addButton}
+                        />
+                    </View>
+                </View>
+            )}
             <Modal visible={modalVisible}>
-                <View style={{ flex: 1 }}>
+                <View style={styles.mapContainer}>
                     <MapView
-                        style={{ flex: 1 }}
+                        style={styles.map}
                         initialRegion={{
                             latitude: location?.coords.latitude || 0,
                             longitude: location?.coords.longitude || 0,
@@ -150,56 +207,112 @@ const AddingAndEditScreen = () => {
                             longitudeDelta: 0.0421,
                         }}
                         onPress={(event) => {
-                        const { latitude, longitude } = event.nativeEvent.coordinate;
-                        setLatitude(latitude);
-                        setLongitude(longitude);
-                    }}
-
+                            const { latitude, longitude } = event.nativeEvent.coordinate;
+                            setLatitude(latitude);
+                            setLongitude(longitude);
+                        }}
                     >
-                        {
-                            latitude !== 0 && longitude !== 0 &&
-                            <Marker coordinate={{latitude :latitude, longitude:longitude}} />
-                        }
+                        {latitude !== 0 && longitude !== 0 && (
+                            <Marker coordinate={{ latitude: latitude, longitude: longitude }} />
+                        )}
                     </MapView>
                     <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}
-                        style={{
-                            position: "absolute",
-                            top: 16,
-                            left: 16,
-                            backgroundColor: "white",
-                            borderRadius: 10,
-                            padding: 8,
-                        }}
+                        style={styles.modalButton}
                     >
-                        <Text>Retour</Text>
+                        <Text style={styles.modalButtonText}>Retour</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => setModalVisible(false)}
-                        style={{
-                            position: "absolute",
-                            top: 16,
-                            right: 16,
-                            backgroundColor: "#90EE90",
-                            borderRadius: 10,
-                            padding: 8,
-                        }}
+                        style={styles.modalButton}
                     >
-                        <Text>Valider</Text>
+                        <Text style={styles.modalButtonText}>Valider</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
         </View>
-    )
-}
+    );
+};
 
-const Style = StyleSheet.create({
-    validationButton: {
-        backgroundColor: "#008000",
-        borderRadius: 10,
-        justifyContent: "center",
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: "#fff",
+    },
+    addingContainer: {
+        backgroundColor: "#f9f9f9",
+        flex: 1,
+        padding: 16,
+    },
+    addingTitle: {
+        alignSelf: "center",
+        marginTop: 20,
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    locationContainer: {
         maxWidth: 200,
         alignSelf: "center",
     },
+    locationTitle: {
+        alignSelf: "center",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginTop: 20,
+    },
+    locationButton: {
+        backgroundColor: "#008000",
+        borderRadius: 10,
+    },
+    validationButton: {
+        backgroundColor: "#00800",
+        borderRadius: 10,
+        maxWidth: 200,
+        margin:10,
+        alignSelf: "center",
+    },
+    listContainer: {
+        flex: 1,
+    },
+    listTitle: {
+        marginTop: 40,
+        marginLeft: 10,
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    addButtonContainer: {
+        flex: 1,
+    },
+    addButtonText: {
+        marginBottom: 5,
+        marginTop: 10,
+        fontSize: 20,
+        fontWeight: "bold",
+    },
+    addButton: {
+        backgroundColor: "#008000",
+        borderRadius: 10,
+        maxWidth: 200,
+        alignSelf: "center",
+    },
+    mapContainer: {
+        flex: 1,
+    },
+    map: {
+        flex: 1,
+    },
+    modalButton: {
+        position: "absolute",
+        top: 16,
+        padding: 8,
+        backgroundColor: "#90EE90",
+        borderRadius: 10,
+    },
+    modalButtonText: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
 });
+
 export default AddingAndEditScreen;

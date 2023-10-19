@@ -1,4 +1,4 @@
-import {Searchbar} from 'react-native-paper';
+import {Searchbar, Text} from 'react-native-paper';
 import React, {SetStateAction, useEffect, useState} from "react";
 import {StyleSheet, View} from "react-native";
 
@@ -32,13 +32,6 @@ const SearchBox = (props : SearchBoxProps) => {
                 value={searchQuery}
             />
 
-            <View>
-                {
-                    /*
-                    TODO: Afficher une liste de proposition
-                     */
-                }
-            </View>
         </View>
     );
 }

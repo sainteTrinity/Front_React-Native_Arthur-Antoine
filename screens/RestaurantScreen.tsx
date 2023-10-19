@@ -1,99 +1,154 @@
-import React, {useEffect} from "react";
-import {Divider, IconButton, Text} from 'react-native-paper';
-import {
-    Dimensions,
-    FlatList,
-    Image,
-    ImageSourcePropType,
-    ScrollView,
-    View
-} from "react-native";
-import {useSelector} from "react-redux";
+import React, { useEffect, useState } from "react";
+import {Text, View, ScrollView, Image, ImageSourcePropType, StyleSheet, FlatList, Linking} from "react-native";
+import { useSelector } from "react-redux";
+import { IconButton, Divider } from "react-native-paper";
 
-type GalelryType = {
-    source: ImageSourcePropType;
-}
 const RestaurantScreen = () => {
-    const restaurant : Restaurant= useSelector((state: any) => state.restaurantReducer.restaurantSelected)
-
-
+    const restaurant: Restaurant = useSelector((state: any) => state.restaurantReducer.restaurantSelected);
 
     const renderImage = ({ item }: { item: string }) => {
-        const windowWidth = Dimensions.get('window').width;
-        const imageWidth = (windowWidth - 40) / 2;
-
-
         return (
-            <View style={{ margin: 10 }}>
-                <Image source={{ uri : item.replace(/\s/g, "")}} style={{ width: imageWidth, borderRadius: 10 }} />
+            <View style={styles.imageContainer}>
+                <Image source={{ uri: item.replace(/\s/g, "") }} style={styles.image} />
             </View>
         );
     };
 
+    const openWebsite = () => {
+        if (restaurant.website) {
+            Linking.openURL(restaurant.website);
+        }
+    };
+
+    const callPhoneNumber = () => {
+        if (restaurant.phoneNumber) {
+            Linking.openURL(`tel:${restaurant.phoneNumber}`);
+        }
+    };
+
     return (
+        <ScrollView style={styles.container}>
+            {restaurant.images && (
+            <View style={styles.headerContainer}>
+                <Image source={{ uri: restaurant.images[0].replace(/\s/g, "") }} style={styles.headerImage} />
 
+                {/* Bouton de like */}
+                <IconButton
+                    icon="heart"
+                    size={30}
+                    style={styles.likeButton}
+                    onPress={() => {
+                        // Ajoutez ici la logique pour la gestion des likes
+                    }}
+                />
+            </View>
+            )}
 
-        <>
-            {
-                restaurant.images &&
-                <ScrollView>
-                    <View>
-                        <Image source={{ uri : restaurant.images[0].replace(/\s/g, "")}} style={{
-                            borderRadius: 10,
-                            width: "100%",
-                            height: 200,
+            {restaurant.images && (
+                <View style={styles.contentContainer}>
+                    <Text style={styles.title}>{restaurant.name}</Text>
 
-                        }}/>
-                        <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleLarge"}>{restaurant.name}</Text>
+                    <Divider style={styles.divider} />
 
-                        <Divider style={{marginLeft: 20, marginRight: 20, marginTop: 10}}/>
+                    <Text style={styles.sectionTitle}>Description</Text>
+                    <Text style={styles.description}>{restaurant.description}</Text>
 
-                        <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleMedium"}>Description</Text>
-                        <Text style={{marginTop: 2, marginLeft: 35}} variant={"bodyMedium"}>{restaurant.description}</Text>
-
-                        {
-                            /**
-                             * TODO : MENU FOR NEXT UPDATE
-                             */
-
-                            /*
-                             <View style={{
-                            flexDirection: "row", alignItems: 'center',
-                            justifyContent: 'space-between', marginLeft: 30, marginRight: 10
-                        }}>
-                            <Text style={{}} variant={"titleMedium"}>Menu</Text>
-                            <IconButton style={{borderRadius: 10, borderColor: "black", borderWidth: 1, marginLeft: 10}}
-                                        icon={"download"}/>
-                        </View>
-
-                        <Image source={{uri: 'https://placekitten.com/640/360'}} style={{
-                            borderRadius: 10,
-                            width: "100%",
-                            height: 290,
-                            marginTop: 10
-                        }}/>
-                             */
-                        }
-
-
-                        <Text style={{marginTop: 40, marginLeft: 30}} variant={"titleMedium"}>Galerie</Text>
+                    <Text style={styles.sectionTitle}>Localisation</Text>
+                    <View style={styles.infoSection}>
+                        <Text style={styles.infoTitle}>Adresse</Text>
+                        <Text style={styles.infoText}>{restaurant.address}</Text>
                     </View>
-                    <ScrollView horizontal={true}>
-                        <FlatList
-                            scrollEnabled={false}
-                            numColumns={2}
-                            data={restaurant.images}
-                            renderItem={(item) => renderImage(item)}
-                            keyExtractor={item => item}
-                        />
+                    <View style={styles.infoSection}>
+                        <Text style={styles.infoTitle}>Téléphone</Text>
+                        <Text style={styles.infoText} onPress={callPhoneNumber} style={styles.linkText}>
+                            {restaurant.phoneNumber}
+                        </Text>
+                    </View>
+                    <View style={styles.infoSection}>
+                        <Text style={styles.infoTitle}>Site Web</Text>
+                        <Text style={styles.infoText} onPress={openWebsite} style={styles.linkText}>
+                            {restaurant.website}
+                        </Text>
+                    </View>
 
-                    </ScrollView>
+                    {/* TODO: Ajouter une section pour le menu si nécessaire */}
 
-                </ScrollView>
-
-            }
-        </>
+                    <Text style={styles.sectionTitle}>Galerie</Text>
+                </View>
+            )}
+            <ScrollView horizontal={true}>
+                <FlatList
+                    scrollEnabled={false}
+                    numColumns={2}
+                    data={restaurant.images}
+                    renderItem={({ item }) => renderImage({ item })}
+                    keyExtractor={(item) => item}
+                />
+            </ScrollView>
+        </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+    },
+    headerContainer: {
+        position: "relative",
+    },
+    headerImage: {
+        width: "100%",
+        height: 300,
+        resizeMode: "cover",
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginTop: 20,
+    },
+    likeButton: {
+        position: "absolute",
+        top: 20,
+        right: 20,
+        backgroundColor: "white",
+    },
+    contentContainer: {
+        padding: 20,
+    },
+    divider: {
+        marginVertical: 20,
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginTop: 20,
+    },
+    infoContainer: {
+        marginBottom: 20,
+    },
+    infoSection: {
+        marginVertical: 10,
+    },
+    infoTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    infoText: {
+        fontSize: 16,
+    },
+    linkText: {
+        color: "blue",
+        textDecorationLine: "underline",
+    },
+    imageContainer: {
+        margin: 10,
+    },
+    image: {
+        width: 160,
+        height: 160,
+        borderRadius: 10,
+    },
+});
 
 export default RestaurantScreen;

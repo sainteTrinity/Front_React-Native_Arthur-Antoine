@@ -4,10 +4,10 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 type Props = {
     onPress?: () => void;
     floatingPosition?: 'left' | 'right' | 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-    content: string;
+    content: React.ReactNode; // Change the type of the content prop
 }
-const CustomFloatingButton = (props: Props) => {
 
+const CustomFloatingButton = (props: Props) => {
     const { onPress } = props;
 
     const setFloatingPosition = () => {
@@ -22,6 +22,7 @@ const CustomFloatingButton = (props: Props) => {
                 return styles.buttonContainer;
         }
     }
+
     return (
         <TouchableOpacity style={setFloatingPosition()} onPress={onPress}>
             <View style={styles.button}>
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         zIndex: 1,
-
     },
     buttonContainerRight: {
         position: 'absolute',

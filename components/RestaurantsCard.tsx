@@ -1,68 +1,79 @@
-import {Image, Pressable, View} from "react-native";
-import {Text} from "react-native-paper";
-import React, {useEffect} from "react";
-import {useNavigation} from "@react-navigation/native";
-import {StackNavigationProp} from "@react-navigation/stack";
-import {useDispatch} from "react-redux";
-import {setRestaurant} from "../redux/actions/RestaurantsActions";
+import React from 'react';
+import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { setRestaurant } from '../redux/actions/RestaurantsActions';
 
 type RestaurantsCardProps = {
-    restaurant: Restaurant,
+    restaurant: Restaurant;
+};
 
-
-}
-
-type MainScreenNavigationProp = StackNavigationProp<any>;
-
-
-const RestaurantsCard = (props : RestaurantsCardProps) => {
+const RestaurantsCard: React.FC<RestaurantsCardProps> = ({ restaurant }) => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const goToDetails = () => {
-        dispatch(setRestaurant(restaurant))
-        navigation.navigate('RestaurantScreen')
-    }
-    const navigation = useNavigation<MainScreenNavigationProp>();
+        dispatch(setRestaurant(restaurant));
+        // @ts-ignore
+        navigation.navigate('RestaurantScreen');
+    };
 
-    const {restaurant} = props;
     const title = restaurant?.name;
     const image = restaurant?.images && restaurant.images[0].replace(/\s/g, "");
     const categories = restaurant?.categories;
 
-    useEffect(() => {
-        console.log(image)
-    }, [image])
-
     return (
-        <Pressable onPress={() => goToDetails()} style={{
-            backgroundColor: '#d9d9d9',
-            marginTop: 10,
-            marginLeft: 10,
-            marginRight: 10,
-            borderRadius: 10,
-            overflow: 'hidden',
-        }}>
-            <View style={{marginLeft: 10, marginRight: 10, marginTop: 10}}>
-                <Image source={{uri : image}} style={{
-                    height: 200,
-                    width: "100%",
-                }}/>
-
-                <Text variant={"titleLarge"}>{title}</Text>
-
-                <View style={{flexDirection : "row"}}>
-                    {
-                        categories?.map((categorie, index) => {
-                            return (
-                                <Text variant={"bodyMedium"} style={{backgroundColor: "lightgrey", padding: 10, borderRadius: 10, marginRight : 5 }} key={index}>{categorie}</Text>
-                            )
-                        })
-                    }
+        <TouchableOpacity
+            onPress={goToDetails}
+            style={styles.cardContainer}
+        >
+            <Image source={{ uri: image }} style={styles.image} />
+            <View style={styles.infoContainer}>
+                <Text style={styles.title}>{title}</Text>
+                <View style={styles.categoriesContainer}>
+                    {categories?.map((category, index) => (
+                        <Text key={index} style={styles.category}>
+                            {category}
+                        </Text>
+                    ))}
                 </View>
             </View>
-        </Pressable>
-    )
-}
+        </TouchableOpacity>
+    );
+};
 
+const styles = StyleSheet.create({
+    cardContainer: {
+        backgroundColor: 'white',
+        margin: 10,
+        width: 250, // Customize the width as needed
+        height: 150, // Set a fixed height (adjust as necessary)
+        borderRadius: 10,
+        elevation: 3,
+        overflow: 'hidden'
+    },
+    image: {
+        height: 100, // Set a fixed height for the image
+        width: '100%',
+    },
+    infoContainer: {
+        padding: 10,
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    categoriesContainer: {
+        flexDirection: 'row',
+    },
+    category: {
+        backgroundColor: '#EDEDED',
+        padding: 8,
+        borderRadius: 10,
+        marginRight: 5,
+        fontSize: 14,
+    },
+});
 
 export default RestaurantsCard;
