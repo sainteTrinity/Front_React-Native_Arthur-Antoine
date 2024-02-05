@@ -1,5 +1,5 @@
 import { Dispatch, AnyAction } from 'redux';
-import {setRestaurantsList} from "../actions/RestaurantsActions";
+import {AddRestaurant, setRestaurantsList} from "../actions/RestaurantsActions";
 
 
 export const RestaurantThunk = (token: string) => {
@@ -23,21 +23,22 @@ export const RestaurantThunk = (token: string) => {
     };
 };
 
-export const AddRestaurantThunk = (token: string, restaurant: Restaurant) => {
+export const addRestaurantThunk = (token: string, restaurant: Restaurant) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         try {
             const response = await fetch('https://lepetitchef-app.herokuapp.com/restaurant', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + token},
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
                 body: JSON.stringify(restaurant)
             });
 
             if (response.status === 200) {
                 const data = await response.json();
-
+                // Une fois que le restaurant est ajouté avec succès, dispatchez l'action pour mettre à jour l'état
+                dispatch(AddRestaurant(data)); // Dispatchez l'action avec les données du nouveau restaurant
             }
         } catch (error) {
             console.log(error);
         }
-    }
-}
+    };
+};

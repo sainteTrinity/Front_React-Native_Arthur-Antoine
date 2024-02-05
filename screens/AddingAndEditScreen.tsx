@@ -9,8 +9,8 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { setRestaurant } from "../redux/actions/RestaurantsActions";
 import * as SecureStore from "expo-secure-store";
-import { RestaurantThunk } from "../redux/middleware/RestaurantThunk";
-import { MaterialIcons } from "@expo/vector-icons"; // Adding icons
+import {addRestaurantThunk, RestaurantThunk} from "../redux/middleware/RestaurantThunk";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const AddingAndEditScreen = () => {
     const dispatch = useDispatch();
@@ -91,17 +91,15 @@ const AddingAndEditScreen = () => {
     };
 
     const validatePhone = () => {
-        // Add your phone number validation logic here
-        const isValid = phone.match(/\d{10}/); // Change this pattern as needed
-        // @ts-ignore
-        setPhoneValid(isValid);
+        const isValid = phone.length >= 0 && phone.length <= 10 ;
+        setPhoneValid(isValid)
+        console.log("phone valid: " + phone);
+        console.log("phone: " + phone);
         return isValid;
     };
 
     const validateWebsite = () => {
-        // Add your website URL validation logic here
-        const isValid = website.match(/^https?:\/\/.+\..+/); // Change this pattern as needed
-        // @ts-ignore
+        const isValid = !website.match(/^https?:\/\/.+\..+/) || website.trim().length === 0;
         setWebsiteValid(isValid);
         return isValid;
     };
@@ -133,8 +131,7 @@ const AddingAndEditScreen = () => {
             };
             SecureStore.getItemAsync("token").then((token) => {
                 if (token) {
-                    // @ts-ignore
-                    dispatch(AddRestaurant(token, restaurant));
+                    addRestaurantThunk(token,restaurant);
                 }
             });
         } else {
@@ -153,14 +150,26 @@ const AddingAndEditScreen = () => {
                     />
                     <Text style={styles.addingTitle}>Ajouter un restaurant</Text>
                     <TextBox content="Nom du restaurant" setContent={setName} />
+                    { !isNameValid && <Text style={{color : 'red'}}>Le nom du restaurant est obligatoire</Text> }
+
                     <TextBox content="Description du restaurant" setContent={setDescription} />
-                    <TextBox content="Téléphone du restaurant" setContent={setPhone} />
+                    { !isDescriptionValid && <Text style={{color : 'red'}}>La description du restaurant est obligatoire</Text> }
+
+                    <TextBox content="Téléphone du restaurant" setContent={setPhone} type={"phone"}/>
+                    { !isPhoneValid && <Text style={{color : 'red'}}>Le numéro de téléphone du restaurant est obligatoire</Text> }
+
                     <TextBox content="Adresse du restaurant" setContent={setAddress} />
+                    { !isAddressValid && <Text style={{color : 'red'}}>L'adresse du restaurant est obligatoire</Text> }
+
                     <TextBox content="Site web du restaurant" setContent={setWebsite} />
+                    { !isWebsiteValid && <Text style={{color : 'red'}}>Le site web du restaurant est obligatoire</Text> }
+
+
                     <View style={styles.locationContainer}>
                         <Text variant="titleMedium" style={styles.locationTitle}>
                             Localisation
                         </Text>
+
                         <CustomButton
                             label="Sélectionner"
                             action={() => setModalVisible(true)}
@@ -266,7 +275,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     validationButton: {
-        backgroundColor: "#00800",
+        backgroundColor: "#008000",
         borderRadius: 10,
         maxWidth: 200,
         margin:10,
