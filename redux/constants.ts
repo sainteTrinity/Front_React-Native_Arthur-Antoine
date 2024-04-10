@@ -1,4 +1,6 @@
 export const FETCH_REQUEST = 'FETCH_REQUEST';
+
+export const SET_LIST_NEWS = 'SET_LIST_NEWS'
 export const UPDATE_REQUEST = 'UPDATE_REQUEST';
 export const DELETE_REQUEST = 'DELETE_REQUEST';
 

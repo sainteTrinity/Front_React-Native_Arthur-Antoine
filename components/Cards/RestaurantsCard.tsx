@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { setRestaurant } from '../redux/actions/RestaurantsActions';
+import { setRestaurant } from '../../redux/actions/RestaurantsActions';
 
 type RestaurantsCardProps = {
     restaurant: Restaurant;

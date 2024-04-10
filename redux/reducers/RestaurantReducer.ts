@@ -7,7 +7,6 @@ const initialState = {
 const restaurantReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case 'FETCH_REQUEST':
-
             return {...state, restaurants: action.payload};
 
         case 'RESTAURANT_SELECTED' :

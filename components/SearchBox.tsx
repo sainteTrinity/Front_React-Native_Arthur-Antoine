@@ -1,53 +1,56 @@
-import {Searchbar, Text} from 'react-native-paper';
-import React, {SetStateAction, useEffect, useState} from "react";
-import {StyleSheet, View} from "react-native";
+import { Searchbar, Text } from 'react-native-paper';
+import React, { SetStateAction, useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 
 type SearchBoxProps = {
-    setValueSearch?: (value:string) => void;
+    setValueSearch?: (value: string) => void;
     avaibleOptions?: string[];
     placeholder?: string;
-    isOver? : boolean;
-}
+    isOver?: boolean;
+};
 
-const SearchBox = (props : SearchBoxProps) => {
-
+const SearchBox = (props: SearchBoxProps) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const {setValueSearch, avaibleOptions, placeholder,isOver} = props;
+    const { setValueSearch, avaibleOptions, placeholder, isOver } = props;
 
     const onChangeSearch = (query: SetStateAction<string>) => {
         setSearchQuery(query);
-    }
+    };
 
     useEffect(() => {
         if (setValueSearch) {
             setValueSearch(searchQuery);
         }
-    }, [searchQuery])
+    }, [searchQuery]);
 
     return (
-        <View style={isOver? styles.containerOver : styles.container}>
+        <View style={styles.container}>
             <Searchbar
-                placeholder={placeholder ? placeholder : "Rechercher..."}
+                placeholder={placeholder ? placeholder : "Find your restaurant..."}
+                placeholderTextColor={"#b2b2b2"}
+                iconColor={"#344D59"}
                 onChangeText={onChangeSearch}
                 value={searchQuery}
+                style={styles.searchBar}
             />
-
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
-    container : {
+    container: {
         margin: 10,
+        borderRadius: 20,
+        overflow: 'hidden',
     },
-    containerOver : {
-        zIndex: 1,
-        position: 'absolute',
-        top: 5,
-        left: 5,
-        right: 5,
-
-    }
-})
+    searchBar: {
+        backgroundColor: 'white',
+        borderRadius: 20,
+        elevation: 3,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#b2b2b2',
+    },
+});
 
 export default SearchBox;
