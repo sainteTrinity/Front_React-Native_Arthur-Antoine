@@ -43,7 +43,7 @@ const HomeScreen = ({navigation}) => {
         setSearchValue(text);
     };
 
-
+    const [showAllCategories, setShowAllCategories] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
 
 
@@ -67,6 +67,7 @@ const HomeScreen = ({navigation}) => {
 
     }, [dispatch]);
 
+    const filteredCategories = showAllCategories ? categories : categories.slice(0, 4);
 
 
 
@@ -93,19 +94,26 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.mainTitle}>Les Meilleurs Restaurants</Text>
             <SearchBox setValueSearch={handleSearchChange} placeholder={"Find your restaurant..."}/>
 
-            <Text style={styles.subtitle}>Catégories</Text>
+            <View style={styles.categoriesHeader}>
+                <Text style={styles.subtitle}>Catégories</Text>
+                    <TouchableOpacity style={styles.seeAllButton} onPress={() => setShowAllCategories(!showAllCategories)}>
+                        <Text style={styles.seeAllText}>Voir tout...</Text>
+                    </TouchableOpacity>
+            </View>
 
             <FlatList
-                data={categories}
+                style={styles.categoriesContainer}
+                data={filteredCategories}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                keyExtractor={(restaurant, index) => index.toString()}
+                keyExtractor={(category, index) => index.toString()}
                 renderItem={({item}) => (
                     <CategoryCard category={item}/>
                 )}
             />
 
-            <FlatList
+
+            {/*<FlatList
                 data={news}
                 horizontal
                 pagingEnabled
@@ -115,20 +123,16 @@ const HomeScreen = ({navigation}) => {
                 renderItem={({ item, index }) => (
                     <NewsCard news={item} onPress={undefined} />
                 )}
-            />
+            />*/}
+
+            <Text style={styles.subtitle}>Les Restaurants à la une</Text>
+            <ScrollView style={styles.restaurantContainer}>
+                {restaurants.map((restaurant, index) => (
+                    <RestaurantsCard restaurant={restaurant} key={index}/>
+                ))}
+            </ScrollView>
 
 
-
-
-            <FlatList
-                data={restaurants}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(restaurant, index) => index.toString()}
-                renderItem={({item}) => (
-                    <RestaurantsCard restaurant={item}/>
-                )}
-            />
         </View>
     );
 };
@@ -138,9 +142,14 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 5,
         backgroundColor: "#fff",
-},
+    },
+    categoriesContainer: {
+        width: "100%",
+        height: 120,
+        marginBottom: 10,
+    },
     header: {
-        height : "12%",
+        height :80,
         flexDirection: 'row',
         justifyContent: "space-between",
         alignItems: 'center',
@@ -155,6 +164,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1, // Opacité de l'ombre
         shadowRadius: 4, // Rayon de l'ombre
         elevation:10, // Élévation de l'ombre pour Android
+    },
+    restaurantContainer: {
+        marginHorizontal: 10,
+        marginTop: 10,
     },
     cardContainer: {
         width: 150,
@@ -175,7 +188,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontFamily: 'PatuaOne_400Regular',
         marginLeft: 15,
-        color : "#344D59"
+        color : "#003C57"
     },
     button:{
         marginHorizontal: 15, // Réduction de la marge horizontale pour rapprocher les boutons
@@ -194,8 +207,28 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'PatuaOne_400Regular',
         marginLeft: 15,
-        color : "#344D59",
+        color : "#003C57",
+    },
+    categoriesHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between', // Pour aligner les éléments horizontalement et les espacer
+    },
+    seeAllButton: {
+        borderColor: '#003C57',
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: 80,
+        marginRight: 15,
         marginTop: 10,
+    },
+    seeAllText: {
+        color: '#003C57',
+        fontStyle: 'italic',
+        fontSize: 12,
+        fontFamily: 'PatuaOne_400Regular',
     },
     icon:{
         padding:5,
@@ -209,11 +242,6 @@ const styles = StyleSheet.create({
     },
     iconSubtitle: {
         marginRight: 5
-    },
-    indicatorContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 10,
     },
     indicator: {
         fontSize: 18,

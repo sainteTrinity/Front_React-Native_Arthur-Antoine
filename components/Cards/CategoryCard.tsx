@@ -103,26 +103,28 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        margin: 10,
         padding: 10,
+        margin: 10,
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
+        width: 80,
+        height: 80,
+        shadowOpacity: 0.1,
         shadowRadius: 3.84,
-        elevation: 5,
+        elevation: 3,
+        alignItems: 'center',
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 40,
+        height: 40,
         marginBottom: 10,
     },
     title: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 11,
         textAlign: 'center',
     },
 });
