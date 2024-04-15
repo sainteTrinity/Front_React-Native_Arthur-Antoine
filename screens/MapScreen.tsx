@@ -40,13 +40,12 @@ const MapScreen = () => {
                     setMarkers((prevMarkers) => [
                         ...prevMarkers,
                         {
-                            latitude: rest.coordinates.latitude,
-                            longitude: rest.coordinates.longitude,
+                            latitude: rest.coordinates?.latitude ?? 0,
+                            longitude: rest.coordinates?.longitude ?? 0,
                             name: rest.name,
                         },
                     ]);
                 }
-
             });
 
 

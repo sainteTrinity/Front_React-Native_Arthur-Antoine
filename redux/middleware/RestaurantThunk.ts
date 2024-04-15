@@ -32,13 +32,41 @@ export const addRestaurantThunk = (token: string, restaurant: Restaurant) => {
                 body: JSON.stringify(restaurant)
             });
 
+
             if (response.status === 200) {
                 const data = await response.json();
-                // Une fois que le restaurant est ajouté avec succès, dispatchez l'action pour mettre à jour l'état
-                dispatch(AddRestaurant(data)); // Dispatchez l'action avec les données du nouveau restaurant
+                //TODO: erreur dans le dispatch "Restaurant" is not a valid JSON
+                dispatch(AddRestaurant(data));
+            }
+            else {
+                console.log("NON")
             }
         } catch (error) {
             console.log(error);
         }
     };
 };
+
+export const deleteRestaurantThunk = (token: string, id: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        try {
+            const response = await fetch('https://lepetitchef-app.herokuapp.com/restaurant/' + id, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            });
+
+            console.log(response)
+
+            if (response.status === 200) {
+                const data = await response.json();
+                
+                console.log(data)
+            }
+            else {
+                console.log("NON")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}

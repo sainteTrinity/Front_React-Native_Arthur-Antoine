@@ -30,7 +30,7 @@ const LoginScreen = () => {
             <TextBox setContent={setPassword} icon="lock" content={"Mot de passe"} secureTextEntry={true}/>
 
             <View style={styles.dividerView} />
-            <CustomButton label={"Connexion"} action={async () => await dispatch(loginThunk(credentials)) }/>
+            <CustomButton label={"Connexion"} action={async () => dispatch(loginThunk(credentials)) }/>
         </View>
     )
 }

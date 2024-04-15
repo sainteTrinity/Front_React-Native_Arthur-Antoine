@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     },
     textBox: {
         overflow: "hidden",
+        marginBottom: 10,
     },
     errorText: {
         color: "red",
