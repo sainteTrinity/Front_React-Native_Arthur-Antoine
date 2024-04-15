@@ -127,7 +127,7 @@ const HomeScreen = ({navigation}) => {
 
             <Text style={styles.subtitle}>Les Restaurants à la une</Text>
             <ScrollView style={styles.restaurantContainer}>
-                {restaurants.map((restaurant, index) => (
+                {restaurants?.map((restaurant, index) => (
                     <RestaurantsCard restaurant={restaurant} key={index}/>
                 ))}
             </ScrollView>
