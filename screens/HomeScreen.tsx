@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {FlatList, ScrollView, StyleSheet, View, TouchableOpacity, Image} from "react-native";
+import {FlatList, ScrollView, StyleSheet, View, TouchableOpacity, Image, ActivityIndicator} from "react-native";
 import { Text } from "react-native-paper";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBox from "../components/SearchBox";
@@ -15,6 +15,18 @@ import NewsCard from "../components/Cards/NewsCard";
 // @ts-ignore
 const HomeScreen = ({navigation}) => {
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        SecureStore.getItemAsync('token').then((token) => {
+            if (token) {
+                // @ts-ignore
+                dispatch(RestaurantThunk(token));
+                // @ts-ignore
+                dispatch(NewsThunk(token));
+            }
+        });
+
+    }, [dispatch]);
 
     const asiat: Category = {name: "Asiatique", categoryLogo: "noodles"}
     const bakery: Category = {name: "Boulangerie", categoryLogo: "bakery"}
@@ -47,29 +59,10 @@ const HomeScreen = ({navigation}) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
 
-    useEffect(() => {
-        SecureStore.getItemAsync('token').then((token) => {
-            if (token) {
-                // @ts-ignore
-                dispatch(RestaurantThunk(token));
-            }
-        });
 
-    }, [dispatch]);
 
-    useEffect(() => {
-        SecureStore.getItemAsync('token').then((token) => {
-            if (token) {
-                // @ts-ignore
-                dispatch(NewsThunk(token));
-            }
-        });
-
-    }, [dispatch]);
 
     const filteredCategories = showAllCategories ? categories : categories.slice(0, 4);
-
-
 
     return (
         <View>
@@ -90,49 +83,43 @@ const HomeScreen = ({navigation}) => {
             </View>
 
 
+            <ScrollView>
+                <Text style={styles.mainTitle}>Les Meilleurs Restaurants</Text>
+                <SearchBox setValueSearch={handleSearchChange} placeholder={"Find your restaurant..."}/>
 
-            <Text style={styles.mainTitle}>Les Meilleurs Restaurants</Text>
-            <SearchBox setValueSearch={handleSearchChange} placeholder={"Find your restaurant..."}/>
-
-            <View style={styles.categoriesHeader}>
-                <Text style={styles.subtitle}>Catégories</Text>
+                <View style={styles.categoriesHeader}>
+                    <Text style={styles.subtitle}>Catégories</Text>
                     <TouchableOpacity style={styles.seeAllButton} onPress={() => setShowAllCategories(!showAllCategories)}>
                         <Text style={styles.seeAllText}>Voir tout...</Text>
                     </TouchableOpacity>
-            </View>
+                </View>
 
-            <FlatList
-                style={styles.categoriesContainer}
-                data={filteredCategories}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(category, index) => index.toString()}
-                renderItem={({item}) => (
-                    <CategoryCard category={item}/>
-                )}
-            />
+                <FlatList
+                    style={styles.categoriesContainer}
+                    data={filteredCategories}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(category, index) => index.toString()}
+                    renderItem={({item}) => (
+                        <CategoryCard category={item}/>
+                    )}
+                />
 
+                <Text style={styles.subtitle}>Les Restaurants à la une</Text>
 
-            {/*<FlatList
-                data={news}
-                horizontal
-                pagingEnabled
-                snapToInterval={10}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (
-                    <NewsCard news={item} onPress={undefined} />
-                )}
-            />*/}
+                <View style={styles.restaurantContainer}>
+                    {Array.isArray(restaurants) ? (
+                        <>
+                            {restaurants.map((restaurant, index) => (
+                                <RestaurantsCard restaurant={restaurant} key={index}/>
+                            ))}
 
-            <Text style={styles.subtitle}>Les Restaurants à la une</Text>
-            <ScrollView style={styles.restaurantContainer}>
-                {restaurants?.map((restaurant, index) => (
-                    <RestaurantsCard restaurant={restaurant} key={index}/>
-                ))}
+                        </>
+                    ) : (
+                        <ActivityIndicator size="large" color="#003C57" />
+                    )}
+                </View>
             </ScrollView>
-
-
         </View>
     );
 };
@@ -145,8 +132,7 @@ const styles = StyleSheet.create({
     },
     categoriesContainer: {
         width: "100%",
-        height: 120,
-        marginBottom: 10,
+        height: 100,
     },
     header: {
         height :80,

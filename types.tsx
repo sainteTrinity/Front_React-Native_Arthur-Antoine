@@ -59,6 +59,10 @@ type User = {
     isLogged: boolean,
 }
 
+type Mark = {
+
+}
+
 
 type Coords = {
     name?: string,

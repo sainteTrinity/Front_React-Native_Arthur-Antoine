@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { setRestaurant } from '../../redux/actions/RestaurantsActions';
 
 type RestaurantsCardProps = {
@@ -21,6 +21,8 @@ const RestaurantsCard: React.FC<RestaurantsCardProps> = ({ restaurant }) => {
     const title = restaurant?.name;
     const image = restaurant?.images && restaurant.images[0].replace(/\s/g, "");
     const categories = restaurant?.categories;
+    const marks: Array<Mark> = useSelector((state: any) => state.restaurantReducer.restaurants);
+
 
     return (
         <View>
