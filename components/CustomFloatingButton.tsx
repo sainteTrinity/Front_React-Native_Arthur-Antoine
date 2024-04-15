@@ -2,13 +2,14 @@ import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 type Props = {
+    action?: Function
     onPress?: () => void;
     floatingPosition?: 'left' | 'right' | 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     content: React.ReactNode; // Change the type of the content prop
 }
 
 const CustomFloatingButton = (props: Props) => {
-    const { onPress } = props;
+    const { onPress, action } = props;
 
     const setFloatingPosition = () => {
         switch (props.floatingPosition) {
@@ -24,7 +25,7 @@ const CustomFloatingButton = (props: Props) => {
     }
 
     return (
-        <TouchableOpacity style={setFloatingPosition()} onPress={onPress}>
+        <TouchableOpacity style={setFloatingPosition()} onPress={() => action ? action() : null} >
             <View style={styles.button}>
                 <Text style={styles.buttonText}>{props.content}</Text>
             </View>
@@ -52,12 +53,20 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     button: {
-        backgroundColor: '#F4F4F4',
+        backgroundColor: 'transparent',
         borderRadius: 50,
-        width: 56,
-        height: 56,
+        width: 50,
+        height: 50,
+        margin:10,
         justifyContent: 'center',
         alignItems: 'center',
+        borderColor: "#fff",
+        borderWidth: 0.3,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
     },
     buttonText: {
         color: 'black',
