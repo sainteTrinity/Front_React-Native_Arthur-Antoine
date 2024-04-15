@@ -27,6 +27,7 @@ const LoginScreen = () => {
 
     return (
         <View style={styles.container}>
+
             <Image
                 source={require("../assets/images/background-test.jpg")} // Replace with the path to your image
                 style={styles.backgroundImage}

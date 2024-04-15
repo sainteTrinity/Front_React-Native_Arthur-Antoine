@@ -7,7 +7,8 @@ type TextBoxProps = {
     setContent?: (content: string) => void;
     icon?: string;
     secureTextEntry?: boolean;
-    error?: string | null; // Ajout de la prop error
+    error?: string | null;
+    type?: string;
 };
 
 const TextBox = (props: TextBoxProps) => {
@@ -34,7 +35,8 @@ const TextBox = (props: TextBoxProps) => {
                 underlineColor="transparent"
                 placeholder={setContent ? content : label}
                 secureTextEntry={secureTextEntry && !isPasswordVisible}
-                error={!!error} // Ajout de la prop error pour afficher l'erreur
+                error={!!error}
+                keyboardType={props.type === "phone" ? "phone-pad" : "default"}
             />
             {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
     },
     textBox: {
         overflow: "hidden",
+        marginBottom: 10,
     },
     errorText: {
         color: "red",

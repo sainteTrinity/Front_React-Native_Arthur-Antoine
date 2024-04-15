@@ -1,4 +1,4 @@
-import {loginThunk, signupRequestMiddleware} from "../middleware/LoginThunk";
+import {loginThunk, signupThunk} from "../middleware/LoginThunk";
 import {getToken} from "../../util/JwtUtil";
 
 const credentials: Credentials = {
@@ -41,7 +41,7 @@ const LoginReducer = (state = initialState, action: ActionType) => {
                 about: action.payload.about
             }
 
-            const signup = signupRequestMiddleware(cred);
+            const signup = signupThunk(cred);
             return {...state, isLogin: signup};
         default:
             return state;

@@ -15,7 +15,7 @@ export const updateRestaurantsList = (restaurantsList: Restaurant[]) => {
     }
 }
 
-export const AddRestaurtant = (restaurant: Restaurant) => {
+export const AddRestaurant = (restaurant: Restaurant) => {
     return {
         type: ADD_RESTAURANT,
         payload: restaurant

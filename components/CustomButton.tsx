@@ -4,16 +4,17 @@ import React from "react";
 
 
 type CustomButtonProps = {
-    label: string
+    label?: string
     action?: Function
     size?: string
     style?: any
+    icon?: string
 }
 const CustomButton = (props: CustomButtonProps) => {
-    const {label, action, style} = props
+    const {label, action, style, icon} = props
 
     return (
-        <Button mode="contained" style={style ? {...styles.button, ...style} : styles.button} labelStyle={styles.label}
+            <Button icon={icon} mode="contained" style={style ? {...styles.button, ...style} : styles.button} labelStyle={styles.label}
                 onPress={() => action ? action() : null}>{label} </Button>
     )
 }
