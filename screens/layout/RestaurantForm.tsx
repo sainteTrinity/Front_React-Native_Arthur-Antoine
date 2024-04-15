@@ -24,9 +24,9 @@ const RestaurantForm = ({
     address: "",
     description: "",
   });
-
-    const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  
+  const [latitude, setLatitude] = useState(45.776561283221795);
+  const [longitude, setLongitude] = useState(3.082095809158214);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
@@ -114,9 +114,9 @@ const RestaurantForm = ({
           validateWebsite(restaurant.website) ? "" : "Le site n'est pas valide"
         }
       />
-      <CustomButton style={styles.addLocationButton} label="Ajouter localisation" action={onLocationSelect} />
 
       <View style={styles.mapContainer}>
+
           <MapView
             style={styles.map}
             initialRegion={{
@@ -194,3 +194,4 @@ const styles = StyleSheet.create({
 });
 
 export default RestaurantForm;
+
