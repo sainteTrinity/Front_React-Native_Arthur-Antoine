@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {FlatList, ScrollView, StyleSheet, View, TouchableOpacity, Image} from "react-native";
-import { Text } from "react-native-paper";
+import { ActivityIndicator, Text } from "react-native-paper";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBox from "../components/SearchBox";
 import RestaurantsCard from "../components/Cards/RestaurantsCard";
@@ -89,8 +89,6 @@ const HomeScreen = ({navigation}) => {
                 </TouchableOpacity>
             </View>
 
-
-
             <Text style={styles.mainTitle}>Les Meilleurs Restaurants</Text>
             <SearchBox setValueSearch={handleSearchChange} placeholder={"Find your restaurant..."}/>
 
@@ -127,9 +125,12 @@ const HomeScreen = ({navigation}) => {
 
             <Text style={styles.subtitle}>Les Restaurants à la une</Text>
             <ScrollView style={styles.restaurantContainer}>
-                {restaurants?.map((restaurant, index) => (
+                {restaurants && restaurants.length ?
+                restaurants.map((restaurant, index) => (
                     <RestaurantsCard restaurant={restaurant} key={index}/>
-                ))}
+                ))
+                : <ActivityIndicator size="large" color="#000" />
+                }
             </ScrollView>
 
 
