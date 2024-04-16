@@ -1,8 +1,8 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text } from 'react-native-paper';
+import { ActivityIndicator, Text } from 'react-native-paper';
 import TextBox from "../components/TextBox";
 import CustomButton from "../components/CustomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { loginThunk } from "../redux/middleware/LoginThunk";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -17,6 +17,9 @@ const LoginScreen = () => {
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [credentials, setCredentials] = useState<Credentials>({ username: login, hashedPassword: password });
+    
+    const errorLogin = useSelector((state: any) => state.loginReducer.error);
+    const loading = useSelector((state: any) => state.loginReducer.loading);
 
     useEffect(() => {
         setCredentials({ username: login, hashedPassword: password });
@@ -24,6 +27,12 @@ const LoginScreen = () => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation<LoginScreenNavigationProp>();
+
+
+    const connect = () => {
+        // @ts-ignore
+        dispatch(loginThunk(credentials))
+    }
 
     return (
         <View style={styles.container}>
@@ -41,9 +50,18 @@ const LoginScreen = () => {
             <View style={styles.overlay}>
                 <TextBox setContent={setLogin} content="Identifiant" icon="account" />
                 <View style={styles.textBoxMargin} />
-                <TextBox setContent={setPassword} icon="lock" content={"Mot de passe"} secureTextEntry={true} />
+                <TextBox setContent={setPassword} icon="lock" content={"Mot de passe"} secureTextEntry={true} error={errorLogin ? 'Informations de connexion incorrect' : ''}/>
                 <View style={styles.textBoxMargin} />
-                <CustomButton label={"Connexion"} action={async () => dispatch(loginThunk(credentials))} style={styles.customButton} />
+                {
+                    loading ?
+                        <View>
+                            <Text style={{ color: "#fff", textAlign: "center" }}>Connexion en cours...</Text>
+                            <ActivityIndicator animating={true} color={"#fff"} />
+                        </View>
+                        :
+                        <CustomButton label={"Connexion"} action={async() => connect()} style={styles.customButton} />
+
+                }
             </View>
         </View>
     );

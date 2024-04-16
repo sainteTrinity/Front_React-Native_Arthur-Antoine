@@ -9,6 +9,7 @@ import {err} from "react-native-svg/lib/typescript/xml";
 export const loginThunk = (credentials: Credentials) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         try {
+            dispatch({ type: 'LOGIN_REQUEST'});
             const response = await login(credentials);
             if (response.ok) {
                 const reponse = await response.json();

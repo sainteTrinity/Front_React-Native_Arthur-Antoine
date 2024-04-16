@@ -37,6 +37,8 @@ const TextBox = (props: TextBoxProps) => {
                 secureTextEntry={secureTextEntry && !isPasswordVisible}
                 error={!!error}
                 keyboardType={props.type === "phone" ? "phone-pad" : "default"}
+                autoCapitalize="none"
+
             />
             {error && <Text style={styles.errorText}>{error}</Text>}
         </View>

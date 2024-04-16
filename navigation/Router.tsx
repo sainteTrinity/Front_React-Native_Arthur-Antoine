@@ -8,12 +8,6 @@ import BottomTabBarNavigator from "./BottomTabBarNavigator";
 const Router = () => {
     const isLogged = useSelector((state: any) => state.loginReducer.isLogin);
 
-
-    useEffect(() => {
-        console.log("isLogged : " + isLogged);
-    }, [isLogged]);
-
-
     return (
         isLogged ?
             <>

@@ -1,5 +1,6 @@
 import {loginThunk, signupThunk} from "../middleware/LoginThunk";
 import {getToken} from "../../util/JwtUtil";
+import { LOGIN_FAILURE } from "../constants";
 
 const credentials: Credentials = {
     username: "",
@@ -24,16 +25,14 @@ const LoginReducer = (state = initialState, action: ActionType) => {
 
     switch (action.type) {
         case 'LOGIN_REQUEST':
-
-            return {...state, credentials: action.payload};
+            return {...state, credentials: action.payload, loading: true, error: null};
         case 'LOGIN_SUCCESS':
-            return {...state, isLogin: true};
+            return {...state, isLogin: true, loading: false, error: null};
 
         case 'LOGIN_FAILURE':
-            return {...state, isLogin: false};
+            return {...state, isLogin: false, error: LOGIN_FAILURE, loading: false};
 
         case 'SIGNUP_REQUEST':
-
             const cred: Credentials = {
                 username: action.payload.username,
                 hashedPassword: action.payload.hashedPassword,
